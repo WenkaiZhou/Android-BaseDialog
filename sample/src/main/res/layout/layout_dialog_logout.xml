@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data class=".LogoutDialogBinding">
+
+        <variable
+            name="view"
+            type="com.kevin.dialog.sample.LogoutDialog" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="140px">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/white" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/but_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="12dp"
+                android:background="@android:color/transparent"
+                android:onClick="@{view::onCancelClicked}"
+                android:src="@mipmap/cancel_fork" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            android:paddingBottom="60px"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingTop="30px">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="退出后不接收任何消息，但不会删除历史消息数据！"
+                android:textColor="@color/c_acacac" />
+
+            <Button
+                android:id="@+id/logout_ok"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="60px"
+                android:background="@drawable/btn_bg_orange"
+                android:onClick="@{view::onLogoutClicked}"
+                android:text="退出登录"
+                android:textColor="@color/c_e9ad44" />
+
+            <Button
+                android:id="@+id/logout_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="60px"
+                android:background="@drawable/btn_bg_orange"
+                android:onClick="@{view::onCancelClicked}"
+                android:text="取消"
+                android:textColor="@color/c_acacac" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>
+
