@@ -1,1 +1,1 @@
-include ':basedialog'
+include ':basedialog', ':sample'
