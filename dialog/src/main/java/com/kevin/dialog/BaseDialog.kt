@@ -113,17 +113,12 @@ abstract class BaseDialog : DialogFragment() {
         if (dialog != null) {
             dialog.setCanceledOnTouchOutside(mCanceledOnTouchOutside)
             dialog.setCancelable(mCanceledBack)
-            setDialogGravity(dialog) // 设置对话框布局
+            setDialog(dialog)
         }
         super.onStart()
     }
 
-    /**
-     * 设置对话框底部显示
-     *
-     * @param dialog
-     */
-    private fun setDialogGravity(dialog: Dialog) {
+    private fun setDialog(dialog: Dialog) {
         // 设置宽度为屏宽、靠近屏幕底部
         val window = dialog.window
         window!!.setBackgroundDrawableResource(android.R.color.transparent)
@@ -169,14 +164,13 @@ abstract class BaseDialog : DialogFragment() {
     }
 
     fun remove() {
-        val ft = fragmentManager!!.beginTransaction()
-        ft.remove(this)
-        ft.addToBackStack(null)
+        val transaction = fragmentManager?.beginTransaction()
+        transaction?.remove(this)
+        transaction?.addToBackStack(null)
     }
 
     /**
      * 设置对话框位置
-     * [默认][Gravity.CENTER]
      *
      * @param gravity 位置
      */
@@ -267,7 +261,7 @@ abstract class BaseDialog : DialogFragment() {
         mY = y
     }
 
-    fun scaleValue(pxVal: Int): Int {
+    private fun scaleValue(pxVal: Int): Int {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_SP, pxVal.toFloat(),
             context!!.resources.displayMetrics

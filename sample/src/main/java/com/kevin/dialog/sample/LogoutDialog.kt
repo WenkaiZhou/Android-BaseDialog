@@ -20,7 +20,7 @@ import com.kevin.dialog.BaseDialog
  */
 class LogoutDialog : BaseDialog() {
 
-    private var mListener: LogoutDialog.OnLogoutListener? = null
+    private lateinit var listener: LogoutDialog.OnLogoutListener
 
     override fun createView(context: Context?, inflater: LayoutInflater, container: ViewGroup?): View {
         val binding = LogoutDialogBinding.inflate(LayoutInflater.from(getContext()), container, false)
@@ -29,13 +29,13 @@ class LogoutDialog : BaseDialog() {
     }
 
     fun show(activity: FragmentActivity, listener: LogoutDialog.OnLogoutListener): LogoutDialog {
-        this.mListener = listener
+        this.listener = listener
         super.show(activity.supportFragmentManager, TAG)
         return this
     }
 
     fun onLogoutClicked(view: View) {
-        mListener!!.onLogout(view, getDialog())
+        listener.onLogout(view, getDialog())
     }
 
     fun onCancelClicked(view: View) {
