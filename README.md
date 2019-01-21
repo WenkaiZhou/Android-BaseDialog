@@ -10,3 +10,59 @@ DialogFragment的基本封装
 ```
 implementation 'com.kevin:basedialog:1.0.0'
 ```
+
+## 使用
+
+1. 继承 `BaseDialog`
+
+    ```java
+    public class MyDialog extends BaseDialog {
+    }
+    ```
+    
+2. 重写 `createView` 方法，传入布局
+
+    ```java
+    public class MyDialog extends BaseDialog {
+    
+        @Override
+        public View createView(Context context, LayoutInflater layoutInflater, ViewGroup viewGroup) {
+            return null;
+        }
+    }
+    ```
+
+3. 重写 `onViewCreated` 方法，进行View操作
+
+    ```java
+    public class MyDialog extends BaseDialog {   
+    
+        @Override
+        public void onViewCreated(View view, Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+        }
+    }
+    ```
+    
+4. 实例化
+
+    ```java
+    public class MyDialog extends BaseDialog {   
+        private static MyDialog dialog;
+    
+        public static MyDialog getInstance() {
+            if (dialog == null) {
+                dialog = new MyDialog();
+                dialog.setAlpha(0.8F); // 设置透明度
+                dialog.setPadding(8,0,8,0); // 设置边距
+                dialog.setCanceledBack(false); // 设置屏蔽返回键
+                dialog.setCanceledOnTouchOutside(false); // 设置屏蔽对话框点击外部关闭
+                dialog.setWidth(1.0F); // 设置宽度为屏幕宽度
+                dialog.setDimEnabled(false); // 设置无黑色透明背景
+                dialog.setAnimations(android.R.style.Animation_InputMethod); // 设置动画
+                dialog.setGravity(Gravity.BOTTOM); // 设置弹窗位置
+            }
+            return dialog;
+        }
+    }
+    ```
