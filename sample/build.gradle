@@ -34,7 +34,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation project(':dialog')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation 'com.android.support:recyclerview-v7:28.0.0'
@@ -42,7 +41,8 @@ dependencies {
     // 扩展库，扩展支持了item click、item long click、databinding
     implementation 'com.kevin:delegationadapter-extras:1.1.0'
 
-    implementation 'com.contrarywind:Android-PickerView:4.1.7'
+//    implementation project(':dialog')
+    implementation 'com.kevin:basedialog:1.0.0'
 }
 repositories {
     mavenCentral()
