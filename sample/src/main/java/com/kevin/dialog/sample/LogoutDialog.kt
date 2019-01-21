@@ -48,7 +48,7 @@ class LogoutDialog : BaseDialog() {
 
     companion object {
 
-        private val TAG = "LogoutDialog"
+        private const val TAG = "LogoutDialog"
 
         @JvmStatic
         val instance: LogoutDialog
@@ -59,6 +59,7 @@ class LogoutDialog : BaseDialog() {
                 dialog.setGravity(Gravity.BOTTOM) // 设置对话框在底部
                 dialog.setWidth(1f) // 设置宽度为屏幕宽度
                 dialog.setDimEnabled(false) // 设置无黑色透明背景
+                dialog.setAnimations(android.R.style.Animation_InputMethod)
                 return dialog
             }
     }
