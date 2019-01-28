@@ -53,14 +53,14 @@ implementation 'com.kevin:basedialog:1.0.0'
         public static MyDialog getInstance() {
             if (dialog == null) {
                 dialog = new MyDialog();
-                dialog.setAlpha(0.8F); // 设置透明度
-                dialog.setPadding(8,0,8,0); // 设置边距
-                dialog.setCanceledBack(false); // 设置屏蔽返回键
-                dialog.setCanceledOnTouchOutside(false); // 设置屏蔽对话框点击外部关闭
-                dialog.setWidth(1.0F); // 设置宽度为屏幕宽度
-                dialog.setDimEnabled(false); // 设置无黑色透明背景
-                dialog.setAnimations(android.R.style.Animation_InputMethod); // 设置动画
-                dialog.setGravity(Gravity.BOTTOM); // 设置弹窗位置
+                dialog.alpha(0.8F) // 设置透明度
+                .padding(8,0,8,0) // 设置边距
+                .canceledBack(false) // 设置屏蔽返回键
+                .canceledOnTouchOutside(false) // 设置屏蔽对话框点击外部关闭
+                .width(1.0F) // 设置宽度为屏幕宽度
+                .dimEnabled(false) // 设置无黑色透明背景
+                .animations(android.R.style.Animation_InputMethod) // 设置动画
+                .gravity(Gravity.BOTTOM); // 设置弹窗位置
             }
             return dialog;
         }

@@ -44,17 +44,17 @@ import android.view.WindowManager
  */
 abstract class BaseDialog : DialogFragment() {
 
-    private var mGravity = Gravity.CENTER // 对话框的位置
-    private var mCanceledOnTouchOutside = true // 是否触摸外部关闭
-    private var mCanceledBack = true // 是否返回键关闭
-    private var mWidth = 0.9f // 对话框宽度，范围：0-1；1整屏宽
-    private var mOffsetY = 0f // Y方向偏移，范围：-1 ~ 1；1向下整屏幕
-    private var mPadding: IntArray? = null // 对话框与屏幕边缘距离
-    private var mAnimStyle: Int = 0 // 显示动画
-    private var isDimEnabled = true // 边缘阴影
-    private var mAlpha = 1f // 对话框透明度，范围：0-1；1不透明
-    private var mX: Int = 0
-    private var mY: Int = 0
+    private var gravity = Gravity.CENTER // 对话框的位置
+    private var canceledOnTouchOutside = true // 是否触摸外部关闭
+    private var canceledBack = true // 是否返回键关闭
+    private var width = 0.9f // 对话框宽度，范围：0-1；1整屏宽
+    private var offsetY = 0f // Y方向偏移，范围：-1 ~ 1；1向下整屏幕
+    private var padding: IntArray? = null // 对话框与屏幕边缘距离
+    private var animStyle: Int = 0 // 显示动画
+    private var dimEnabled = true // 边缘阴影
+    private var alpha = 1f // 对话框透明度，范围：0-1；1不透明
+    private var x: Int = 0
+    private var y: Int = 0
 
     val isShowing: Boolean
         get() = dialog != null && dialog.isShowing
@@ -64,35 +64,35 @@ abstract class BaseDialog : DialogFragment() {
         // 设置 无标题 无边框
         setStyle(DialogFragment.STYLE_NO_TITLE, 0)
         if (savedInstanceState != null) {
-            mGravity = savedInstanceState.getInt(SAVED_GRAVITY)
-            mCanceledOnTouchOutside = savedInstanceState.getBoolean(SAVED_TOUCH_OUT)
-            mCanceledBack = savedInstanceState.getBoolean(SAVED_CANCELED_BACK)
-            mWidth = savedInstanceState.getFloat(SAVED_WIDTH)
-            mOffsetY = savedInstanceState.getFloat(SAVED_OFFSET_Y)
-            mPadding = savedInstanceState.getIntArray(SAVED_PADDING)
-            mAnimStyle = savedInstanceState.getInt(SAVED_ANIM_STYLE)
-            isDimEnabled = savedInstanceState.getBoolean(SAVED_DIM_ENABLED)
-            mAlpha = savedInstanceState.getFloat(SAVED_ALPHA)
-            mX = savedInstanceState.getInt(SAVED_X)
-            mY = savedInstanceState.getInt(SAVED_Y)
+            gravity = savedInstanceState.getInt(SAVED_GRAVITY)
+            canceledOnTouchOutside = savedInstanceState.getBoolean(SAVED_TOUCH_OUT)
+            canceledBack = savedInstanceState.getBoolean(SAVED_CANCELED_BACK)
+            width = savedInstanceState.getFloat(SAVED_WIDTH)
+            offsetY = savedInstanceState.getFloat(SAVED_OFFSET_Y)
+            padding = savedInstanceState.getIntArray(SAVED_PADDING)
+            animStyle = savedInstanceState.getInt(SAVED_ANIM_STYLE)
+            dimEnabled = savedInstanceState.getBoolean(SAVED_DIM_ENABLED)
+            alpha = savedInstanceState.getFloat(SAVED_ALPHA)
+            x = savedInstanceState.getInt(SAVED_X)
+            y = savedInstanceState.getInt(SAVED_Y)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(SAVED_GRAVITY, mGravity)
-        outState.putBoolean(SAVED_TOUCH_OUT, mCanceledOnTouchOutside)
-        outState.putBoolean(SAVED_CANCELED_BACK, mCanceledBack)
-        outState.putFloat(SAVED_WIDTH, mWidth)
-        outState.putFloat(SAVED_OFFSET_Y, mOffsetY)
-        if (mPadding != null) {
-            outState.putIntArray(SAVED_PADDING, mPadding)
+        outState.putInt(SAVED_GRAVITY, gravity)
+        outState.putBoolean(SAVED_TOUCH_OUT, canceledOnTouchOutside)
+        outState.putBoolean(SAVED_CANCELED_BACK, canceledBack)
+        outState.putFloat(SAVED_WIDTH, width)
+        outState.putFloat(SAVED_OFFSET_Y, offsetY)
+        if (padding != null) {
+            outState.putIntArray(SAVED_PADDING, padding)
         }
-        outState.putInt(SAVED_ANIM_STYLE, mAnimStyle)
-        outState.putBoolean(SAVED_DIM_ENABLED, isDimEnabled)
-        outState.putFloat(SAVED_ALPHA, mAlpha)
-        outState.putInt(SAVED_X, mX)
-        outState.putInt(SAVED_Y, mY)
+        outState.putInt(SAVED_ANIM_STYLE, animStyle)
+        outState.putBoolean(SAVED_DIM_ENABLED, dimEnabled)
+        outState.putFloat(SAVED_ALPHA, alpha)
+        outState.putInt(SAVED_X, x)
+        outState.putInt(SAVED_Y, y)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -104,15 +104,15 @@ abstract class BaseDialog : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = createView(context, inflater, container)
-        view.alpha = mAlpha
+        view.alpha = alpha
         return view
     }
 
     override fun onStart() {
         val dialog = dialog
         if (dialog != null) {
-            dialog.setCanceledOnTouchOutside(mCanceledOnTouchOutside)
-            dialog.setCancelable(mCanceledBack)
+            dialog.setCanceledOnTouchOutside(canceledOnTouchOutside)
+            dialog.setCancelable(canceledBack)
             setDialog(dialog)
         }
         super.onStart()
@@ -125,16 +125,16 @@ abstract class BaseDialog : DialogFragment() {
         val wlp = window.attributes
         val dm = DisplayMetrics()
         activity!!.windowManager.defaultDisplay.getMetrics(dm) // 获取屏幕宽
-        wlp.width = (dm.widthPixels * mWidth).toInt() // 宽度按屏幕宽度的百分比设置
-        wlp.gravity = mGravity
-        wlp.x = mX
-        wlp.y = mY
-        if (mOffsetY != 0f) {
-            wlp.y = (dm.heightPixels * mOffsetY).toInt() // 偏移按屏幕高度的百分比设置
+        wlp.width = (dm.widthPixels * width).toInt() // 宽度按屏幕宽度的百分比设置
+        wlp.gravity = gravity
+        wlp.x = x
+        wlp.y = y
+        if (offsetY != 0f) {
+            wlp.y = (dm.heightPixels * offsetY).toInt() // 偏移按屏幕高度的百分比设置
         }
         // 边距
-        if (mPadding != null) {
-            val padding = mPadding!!
+        if (padding != null) {
+            val padding = padding!!
             wlp.width = WindowManager.LayoutParams.MATCH_PARENT
             window.decorView.setPadding(
                 scaleValue(padding[0]), scaleValue(padding[1]),
@@ -142,11 +142,11 @@ abstract class BaseDialog : DialogFragment() {
             )
         }
         // 动画
-        if (mAnimStyle != 0) {
-            window.setWindowAnimations(mAnimStyle)
+        if (animStyle != 0) {
+            window.setWindowAnimations(animStyle)
         }
 
-        if (isDimEnabled) {
+        if (dimEnabled) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         } else {
             window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
@@ -174,8 +174,9 @@ abstract class BaseDialog : DialogFragment() {
      *
      * @param gravity 位置
      */
-    protected fun setGravity(gravity: Int) {
-        mGravity = gravity
+    fun gravity(gravity: Int): BaseDialog {
+        this.gravity = gravity
+        return this
     }
 
     /**
@@ -183,8 +184,9 @@ abstract class BaseDialog : DialogFragment() {
      *
      * @param cancel true允许
      */
-    protected fun setCanceledOnTouchOutside(cancel: Boolean) {
-        mCanceledOnTouchOutside = cancel
+    fun canceledOnTouchOutside(cancel: Boolean): BaseDialog {
+        canceledOnTouchOutside = cancel
+        return this
     }
 
     /**
@@ -192,8 +194,9 @@ abstract class BaseDialog : DialogFragment() {
      *
      * @param cancel true允许
      */
-    protected fun setCanceledBack(cancel: Boolean) {
-        mCanceledBack = cancel
+    fun canceledBack(cancel: Boolean): BaseDialog {
+        canceledBack = cancel
+        return this
     }
 
     /**
@@ -201,8 +204,9 @@ abstract class BaseDialog : DialogFragment() {
      *
      * @param width 0.0 ~ 1.0
      */
-    protected fun setWidth(@FloatRange(from = 0.0, to = 1.0) width: Float) {
-        mWidth = width
+    fun width(@FloatRange(from = 0.0, to = 1.0) width: Float): BaseDialog {
+        this.width = width
+        return this
     }
 
     /**
@@ -210,8 +214,9 @@ abstract class BaseDialog : DialogFragment() {
      *
      * @param offsetY -1.0 ~ 1.0
      */
-    protected fun setOffsetY(@FloatRange(from = -1.0, to = 1.0) offsetY: Float) {
-        mOffsetY = offsetY
+    fun offsetY(@FloatRange(from = -1.0, to = 1.0) offsetY: Float): BaseDialog {
+        this.offsetY = offsetY
+        return this
     }
 
     /**
@@ -222,8 +227,9 @@ abstract class BaseDialog : DialogFragment() {
      * @param right  px
      * @param bottom px
      */
-    protected fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
-        mPadding = intArrayOf(left, top, right, bottom)
+    fun padding(left: Int, top: Int, right: Int, bottom: Int): BaseDialog {
+        padding = intArrayOf(left, top, right, bottom)
+        return this
     }
 
     /**
@@ -231,8 +237,9 @@ abstract class BaseDialog : DialogFragment() {
      *
      * @param animStyle StyleRes
      */
-    protected fun setAnimations(animStyle: Int) {
-        mAnimStyle = animStyle
+    fun animations(animStyle: Int): BaseDialog {
+        this.animStyle = animStyle
+        return this
     }
 
     /**
@@ -240,8 +247,9 @@ abstract class BaseDialog : DialogFragment() {
      *
      * @param dimEnabled true昏暗
      */
-    protected fun setDimEnabled(dimEnabled: Boolean) {
-        isDimEnabled = dimEnabled
+    fun dimEnabled(dimEnabled: Boolean): BaseDialog {
+        this.dimEnabled = dimEnabled
+        return this
     }
 
     /**
@@ -249,16 +257,19 @@ abstract class BaseDialog : DialogFragment() {
      *
      * @param alpha 0.0 - 1.0
      */
-    protected fun setAlpha(@FloatRange(from = 0.0, to = 1.0) alpha: Float) {
-        mAlpha = alpha
+    fun alpha(@FloatRange(from = 0.0, to = 1.0) alpha: Float): BaseDialog {
+        this.alpha = alpha
+        return this
     }
 
-    protected fun setX(x: Int) {
-        mX = x
+    fun x(x: Int): BaseDialog {
+        this.x = x
+        return this
     }
 
-    protected fun setY(y: Int) {
-        mY = y
+    fun y(y: Int): BaseDialog {
+        this.y = y
+        return this
     }
 
     private fun scaleValue(pxVal: Int): Int {
