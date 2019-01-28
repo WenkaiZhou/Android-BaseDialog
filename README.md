@@ -8,7 +8,7 @@ DialogFragment的基本封装
 ## 引入
 
 ```
-implementation 'com.kevin:basedialog:1.0.0'
+implementation 'com.kevin:basedialog:1.0.1'
 ```
 
 ## 使用
