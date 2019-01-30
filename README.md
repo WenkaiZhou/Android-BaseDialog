@@ -8,7 +8,7 @@ DialogFragment的基本封装
 ## 引入
 
 ```
-implementation 'com.kevin:basedialog:1.0.1'
+implementation 'com.kevin:basedialog:1.0.2'
 ```
 
 ## 使用
@@ -58,6 +58,7 @@ implementation 'com.kevin:basedialog:1.0.1'
                 .canceledBack(false) // 设置屏蔽返回键
                 .canceledOnTouchOutside(false) // 设置屏蔽对话框点击外部关闭
                 .width(1.0F) // 设置宽度为屏幕宽度
+                .height(1.0F) // 设置高度占比，默认0为包裹内容
                 .dimEnabled(false) // 设置无黑色透明背景
                 .animations(android.R.style.Animation_InputMethod) // 设置动画
                 .gravity(Gravity.BOTTOM); // 设置弹窗位置
