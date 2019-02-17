@@ -180,7 +180,7 @@ abstract class BaseDialog : DialogFragment() {
      *
      * @param gravity 位置
      */
-    fun gravity(gravity: Int): BaseDialog {
+    fun setGravity(gravity: Int): BaseDialog {
         this.gravity = gravity
         return this
     }
@@ -190,7 +190,7 @@ abstract class BaseDialog : DialogFragment() {
      *
      * @param cancel true允许
      */
-    fun canceledOnTouchOutside(cancel: Boolean): BaseDialog {
+    fun setCanceledOnTouchOutside(cancel: Boolean): BaseDialog {
         canceledOnTouchOutside = cancel
         return this
     }
@@ -200,7 +200,7 @@ abstract class BaseDialog : DialogFragment() {
      *
      * @param cancel true允许
      */
-    fun canceledBack(cancel: Boolean): BaseDialog {
+    fun setCanceledBack(cancel: Boolean): BaseDialog {
         canceledBack = cancel
         return this
     }
@@ -210,7 +210,7 @@ abstract class BaseDialog : DialogFragment() {
      *
      * @param width 0.0 ~ 1.0
      */
-    fun width(@FloatRange(from = 0.0, to = 1.0) width: Float): BaseDialog {
+    fun setWidth(@FloatRange(from = 0.0, to = 1.0) width: Float): BaseDialog {
         this.width = width
         return this
     }
@@ -220,7 +220,7 @@ abstract class BaseDialog : DialogFragment() {
      *
      * @param height 0.0 ~ 1.0 0:默认包裹内容 1:整屏高
      */
-    fun height(@FloatRange(from = 0.0, to = 1.0) height: Float): BaseDialog {
+    fun setHeight(@FloatRange(from = 0.0, to = 1.0) height: Float): BaseDialog {
         this.height = height
         return this
     }
@@ -230,7 +230,7 @@ abstract class BaseDialog : DialogFragment() {
      *
      * @param offsetY -1.0 ~ 1.0
      */
-    fun offsetY(@FloatRange(from = -1.0, to = 1.0) offsetY: Float): BaseDialog {
+    fun setOffsetY(@FloatRange(from = -1.0, to = 1.0) offsetY: Float): BaseDialog {
         this.offsetY = offsetY
         return this
     }
@@ -243,7 +243,7 @@ abstract class BaseDialog : DialogFragment() {
      * @param right  px
      * @param bottom px
      */
-    fun padding(left: Int, top: Int, right: Int, bottom: Int): BaseDialog {
+    fun setPadding(left: Int, top: Int, right: Int, bottom: Int): BaseDialog {
         padding = intArrayOf(left, top, right, bottom)
         return this
     }
@@ -253,17 +253,17 @@ abstract class BaseDialog : DialogFragment() {
      *
      * @param animStyle StyleRes
      */
-    fun animations(animStyle: Int): BaseDialog {
+    fun setAnimations(animStyle: Int): BaseDialog {
         this.animStyle = animStyle
         return this
     }
 
     /**
-     * 设置背景是否昏暗，默认true
+     * 设置背景是否阴影，默认true
      *
-     * @param dimEnabled true昏暗
+     * @param dimEnabled true阴影
      */
-    fun dimEnabled(dimEnabled: Boolean): BaseDialog {
+    fun setDimEnabled(dimEnabled: Boolean): BaseDialog {
         this.dimEnabled = dimEnabled
         return this
     }
@@ -273,17 +273,17 @@ abstract class BaseDialog : DialogFragment() {
      *
      * @param alpha 0.0 - 1.0
      */
-    fun alpha(@FloatRange(from = 0.0, to = 1.0) alpha: Float): BaseDialog {
+    fun setAlpha(@FloatRange(from = 0.0, to = 1.0) alpha: Float): BaseDialog {
         this.alpha = alpha
         return this
     }
 
-    fun x(x: Int): BaseDialog {
+    fun setX(x: Int): BaseDialog {
         this.x = x
         return this
     }
 
-    fun y(y: Int): BaseDialog {
+    fun setY(y: Int): BaseDialog {
         this.y = y
         return this
     }
