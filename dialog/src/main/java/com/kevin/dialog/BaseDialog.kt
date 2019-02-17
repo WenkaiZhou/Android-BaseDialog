@@ -19,7 +19,9 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.ColorInt
 import android.support.annotation.FloatRange
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
@@ -53,6 +55,8 @@ abstract class BaseDialog : DialogFragment() {
     private var padding: IntArray? = null // 对话框与屏幕边缘距离
     private var animStyle: Int = 0 // 显示动画
     private var dimEnabled = true // 边缘阴影
+    private var backgroundColor = Color.TRANSPARENT; // 对话框的背景色
+    private var radius = 0 // 圆角半径
     private var alpha = 1f // 对话框透明度，范围：0-1；1不透明
     private var x: Int = 0
     private var y: Int = 0
@@ -74,6 +78,8 @@ abstract class BaseDialog : DialogFragment() {
             padding = savedInstanceState.getIntArray(SAVED_PADDING)
             animStyle = savedInstanceState.getInt(SAVED_ANIM_STYLE)
             dimEnabled = savedInstanceState.getBoolean(SAVED_DIM_ENABLED)
+            backgroundColor = savedInstanceState.getInt(SAVED_BACKGROUND_COLOR);
+            radius = savedInstanceState.getInt(SAVED_RADIUS);
             alpha = savedInstanceState.getFloat(SAVED_ALPHA)
             x = savedInstanceState.getInt(SAVED_X)
             y = savedInstanceState.getInt(SAVED_Y)
@@ -93,6 +99,8 @@ abstract class BaseDialog : DialogFragment() {
         }
         outState.putInt(SAVED_ANIM_STYLE, animStyle)
         outState.putBoolean(SAVED_DIM_ENABLED, dimEnabled)
+        outState.putInt(SAVED_BACKGROUND_COLOR, backgroundColor);
+        outState.putInt(SAVED_RADIUS, radius);
         outState.putFloat(SAVED_ALPHA, alpha)
         outState.putInt(SAVED_X, x)
         outState.putInt(SAVED_Y, y)
@@ -107,6 +115,11 @@ abstract class BaseDialog : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = createView(context, inflater, container)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            view.background = CircleDrawable(backgroundColor, radius);
+        } else {
+            view.setBackgroundDrawable(CircleDrawable(backgroundColor, radius))
+        }
         view.alpha = alpha
         return view
     }
@@ -269,6 +282,26 @@ abstract class BaseDialog : DialogFragment() {
     }
 
     /**
+     * 设置背景颜色
+     *
+     * @color 背景颜色
+     */
+    fun setBackgroundColor(@ColorInt color: Int): BaseDialog {
+        this.backgroundColor = color
+        return this
+    }
+
+    /**
+     * 设置对话框圆角
+     *
+     * @param radius 半径
+     */
+    fun setRadius(radius: Int): BaseDialog {
+        this.radius = radius
+        return this
+    }
+
+    /**
      * 设置对话框透明度
      *
      * @param alpha 0.0 - 1.0
@@ -308,6 +341,8 @@ abstract class BaseDialog : DialogFragment() {
         private val SAVED_PADDING = "SAVED_PADDING"
         private val SAVED_ANIM_STYLE = "SAVED_ANIM_STYLE"
         private val SAVED_DIM_ENABLED = "SAVED_DIM_ENABLED"
+        private val SAVED_BACKGROUND_COLOR = "SAVED_BACKGROUND_COLOR"
+        private val SAVED_RADIUS = "SAVED_RADIUS"
         private val SAVED_ALPHA = "SAVED_ALPHA"
         private val SAVED_X = "SAVED_X"
         private val SAVED_Y = "SAVED_Y"

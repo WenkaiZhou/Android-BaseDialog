@@ -2,6 +2,7 @@ package com.kevin.dialog.sample
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
 import android.support.v4.app.FragmentActivity
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -55,11 +56,14 @@ class LogoutDialog : BaseDialog() {
             get() {
                 val dialog = LogoutDialog()
                 dialog.setCanceledBack(false) // 设置屏蔽返回键
-                .setCanceledOnTouchOutside(false) // 设置屏蔽对话框点击外部关闭
-                .setGravity(Gravity.BOTTOM) // 设置对话框在底部
-                .setWidth(1f) // 设置宽度为屏幕宽度
-                .setDimEnabled(false) // 设置无黑色透明背景
-                .setAnimations(android.R.style.Animation_InputMethod)
+                    .setCanceledOnTouchOutside(false) // 设置屏蔽对话框点击外部关闭
+                    .setGravity(Gravity.BOTTOM) // 设置对话框在底部
+                    .setWidth(1f) // 设置宽度为屏幕宽度
+                    .setDimEnabled(false) // 设置无黑色透明背景
+                    .setAnimations(android.R.style.Animation_InputMethod)
+                    .setBackgroundColor(Color.BLUE)
+                    .setRadius(8)
+
                 return dialog
             }
     }
