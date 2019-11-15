@@ -173,7 +173,7 @@ abstract class BaseDialog : DialogFragment() {
         window.attributes = wlp
     }
 
-    override fun show(manager: FragmentManager, tag: String) {
+    override fun show(manager: FragmentManager, tag: String?) {
         if (!isAdded) {
             val transaction = manager.beginTransaction()
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
