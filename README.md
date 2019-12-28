@@ -2,13 +2,13 @@
 DialogFragment的封装
 
 [![License](https://img.shields.io/badge/License%20-Apache%202-337ab7.svg?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0)
-[![JCenter](https://img.shields.io/badge/%20JCenter%20-1.0.4-5bc0de.svg?style=flat-square)](https://bintray.com/xuehuayous/maven/Android-BaseDialog/_latestVersion)
+[![JCenter](https://img.shields.io/badge/%20JCenter%20-1.0.5-5bc0de.svg?style=flat-square)](https://bintray.com/xuehuayous/maven/Android-BaseDialog/_latestVersion)
 [![MinSdk](https://img.shields.io/badge/%20MinSdk%20-%2014%2B%20-f0ad4e.svg?style=flat-square)](https://android-arsenal.com/api?level=14)
 
 ## 引入
 
 ```
-implementation 'com.kevin:basedialog:1.0.4'
+implementation 'com.kevin:basedialog:1.0.5'
 ```
 
 ## 说明
@@ -17,12 +17,12 @@ BaseDialog对Dialog进行了常用方法的封装，具体如下：
 
 方法 | 说明 | 默认值
 --- | --- | ----
-setGravity(gravity: Int) | 设置对话框位置 | Gravity.CENTER
-setCanceledOnTouchOutside(cancel: Boolean) | 是否触摸外部关闭 | true
+setGravity(gravity: Int) | 设置设置对话框位置 | Gravity.CENTER
+setCanceledOnTouchOutside(cancel: Boolean) | 设置是否触摸外部关闭 | true
 setCanceledBack(cancel: Boolean) | 是否是否返回键关闭 | true
-fun setWidth(width: Float) | 设置宽度占屏幕百分比 | 0.9
-fun setHeight(height: Float) | 设置高度占屏幕百分比 | 0 (包裹内容)
-fun setOffsetY(offsetY: Float) | 设置Y方向偏移百分比 | 0
+setWidth(width: Float) | 设置宽度占屏幕百分比 | 0.9
+setHeight(height: Float) | 设置高度占屏幕百分比 | 0 (包裹内容)
+setOffsetY(offsetY: Float) | 设置Y方向偏移百分比 | 0
 setPadding(left: Int, top: Int, right: Int, bottom: Int) | 设置边距 | 0, 0, 0, 0
 setAnimations(animStyle: Int) | 设置动画 | 0 (无动画)
 setDimEnabled(dimEnabled: Boolean) | 设置背景是否阴影 | true
@@ -182,3 +182,22 @@ setY(y: Int) | 设置对话框在Y方向偏移量 | 0
 4. 添加 `show` 方法，用于显示弹窗，同原始方式
 
 5. 使用，同原始方式
+
+
+## License
+
+    ```text
+    Copyright 2019 Kevin zhou
+    
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    
+       http://www.apache.org/licenses/LICENSE-2.0
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    ```
