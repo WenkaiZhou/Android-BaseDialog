@@ -27,7 +27,6 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.util.DisplayMetrics
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -51,15 +50,15 @@ abstract class BaseDialog : DialogFragment() {
     private var canceledBack = true // 是否返回键关闭
     private var width = 0.9f // 对话框宽度，范围：0-1；1整屏宽
     private var height = 0.0f // 对话框宽度，范围：0-1；1整屏高，0默认包裹内容
-    private var offsetY = 0f // Y方向偏移，范围：-1 ~ 1；1向下整屏幕
+    private var offsetY = 0f // Y方向偏移百分比，范围：-1 ~ 1；1向下整屏幕
     private var padding: IntArray? = null // 对话框与屏幕边缘距离
     private var animStyle: Int = 0 // 显示动画
-    private var dimEnabled = true // 边缘阴影
-    private var backgroundColor = Color.TRANSPARENT; // 对话框的背景色
+    private var dimEnabled = true // 背景阴影
+    private var backgroundColor = Color.TRANSPARENT // 对话框的背景色
     private var radius = 0 // 圆角半径
     private var alpha = 1f // 对话框透明度，范围：0-1；1不透明
-    private var x: Int = 0
-    private var y: Int = 0
+    private var x: Int = 0 // X方向偏移量
+    private var y: Int = 0 // Y方向偏移量
 
     val isShowing: Boolean
         get() = dialog != null && dialog.isShowing
@@ -67,7 +66,7 @@ abstract class BaseDialog : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 设置 无标题 无边框
-        setStyle(DialogFragment.STYLE_NO_TITLE, 0)
+        setStyle(STYLE_NO_TITLE, 0)
         if (savedInstanceState != null) {
             gravity = savedInstanceState.getInt(SAVED_GRAVITY)
             canceledOnTouchOutside = savedInstanceState.getBoolean(SAVED_TOUCH_OUT)
@@ -78,8 +77,8 @@ abstract class BaseDialog : DialogFragment() {
             padding = savedInstanceState.getIntArray(SAVED_PADDING)
             animStyle = savedInstanceState.getInt(SAVED_ANIM_STYLE)
             dimEnabled = savedInstanceState.getBoolean(SAVED_DIM_ENABLED)
-            backgroundColor = savedInstanceState.getInt(SAVED_BACKGROUND_COLOR);
-            radius = savedInstanceState.getInt(SAVED_RADIUS);
+            backgroundColor = savedInstanceState.getInt(SAVED_BACKGROUND_COLOR)
+            radius = savedInstanceState.getInt(SAVED_RADIUS)
             alpha = savedInstanceState.getFloat(SAVED_ALPHA)
             x = savedInstanceState.getInt(SAVED_X)
             y = savedInstanceState.getInt(SAVED_Y)
@@ -99,8 +98,8 @@ abstract class BaseDialog : DialogFragment() {
         }
         outState.putInt(SAVED_ANIM_STYLE, animStyle)
         outState.putBoolean(SAVED_DIM_ENABLED, dimEnabled)
-        outState.putInt(SAVED_BACKGROUND_COLOR, backgroundColor);
-        outState.putInt(SAVED_RADIUS, radius);
+        outState.putInt(SAVED_BACKGROUND_COLOR, backgroundColor)
+        outState.putInt(SAVED_RADIUS, radius)
         outState.putFloat(SAVED_ALPHA, alpha)
         outState.putInt(SAVED_X, x)
         outState.putInt(SAVED_Y, y)
@@ -116,7 +115,7 @@ abstract class BaseDialog : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = createView(context, inflater, container)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            view.background = CircleDrawable(backgroundColor, radius);
+            view.background = CircleDrawable(backgroundColor, radius)
         } else {
             view.setBackgroundDrawable(CircleDrawable(backgroundColor, radius))
         }
@@ -155,10 +154,7 @@ abstract class BaseDialog : DialogFragment() {
         if (padding != null) {
             val padding = padding!!
             wlp.width = WindowManager.LayoutParams.MATCH_PARENT
-            window.decorView.setPadding(
-                scaleValue(padding[0]), scaleValue(padding[1]),
-                scaleValue(padding[2]), scaleValue(padding[3])
-            )
+            window.decorView.setPadding(padding[0], padding[1], padding[2], padding[3])
         }
         // 动画
         if (animStyle != 0) {
@@ -180,12 +176,6 @@ abstract class BaseDialog : DialogFragment() {
             transaction.add(this, tag)
             transaction.commitAllowingStateLoss()
         }
-    }
-
-    fun remove() {
-        val transaction = fragmentManager?.beginTransaction()
-        transaction?.remove(this)
-        transaction?.addToBackStack(null)
     }
 
     /**
@@ -239,7 +229,7 @@ abstract class BaseDialog : DialogFragment() {
     }
 
     /**
-     * 设置对话框偏移
+     * 设置对话框Y方向偏移百分比
      *
      * @param offsetY -1.0 ~ 1.0
      */
@@ -284,7 +274,7 @@ abstract class BaseDialog : DialogFragment() {
     /**
      * 设置背景颜色
      *
-     * @color 背景颜色
+     * @param color 背景颜色
      */
     fun setBackgroundColor(@ColorInt color: Int): BaseDialog {
         this.backgroundColor = color
@@ -311,40 +301,42 @@ abstract class BaseDialog : DialogFragment() {
         return this
     }
 
+    /**
+     * 设置对话框在X方向偏移量
+     *
+     * @param x
+     */
     fun setX(x: Int): BaseDialog {
         this.x = x
         return this
     }
 
+    /**
+     * 设置对话框在Y方向偏移量
+     *
+     * @param y
+     */
     fun setY(y: Int): BaseDialog {
         this.y = y
         return this
     }
 
-    private fun scaleValue(pxVal: Int): Int {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_SP, pxVal.toFloat(),
-            context!!.resources.displayMetrics
-        ).toInt()
-    }
-
     abstract fun createView(context: Context?, inflater: LayoutInflater, container: ViewGroup?): View
 
     companion object {
-
-        private val SAVED_GRAVITY = "SAVED_GRAVITY"
-        private val SAVED_TOUCH_OUT = "SAVED_TOUCH_OUT"
-        private val SAVED_CANCELED_BACK = "SAVED_CANCELED_BACK"
-        private val SAVED_WIDTH = "SAVED_WIDTH"
-        private val SAVED_HEIGHT = "SAVED_HEIGHT"
-        private val SAVED_OFFSET_Y = "SAVED_OFFSET_Y"
-        private val SAVED_PADDING = "SAVED_PADDING"
-        private val SAVED_ANIM_STYLE = "SAVED_ANIM_STYLE"
-        private val SAVED_DIM_ENABLED = "SAVED_DIM_ENABLED"
-        private val SAVED_BACKGROUND_COLOR = "SAVED_BACKGROUND_COLOR"
-        private val SAVED_RADIUS = "SAVED_RADIUS"
-        private val SAVED_ALPHA = "SAVED_ALPHA"
-        private val SAVED_X = "SAVED_X"
-        private val SAVED_Y = "SAVED_Y"
+        private const val SAVED_GRAVITY = "SAVED_GRAVITY"
+        private const val SAVED_TOUCH_OUT = "SAVED_TOUCH_OUT"
+        private const val SAVED_CANCELED_BACK = "SAVED_CANCELED_BACK"
+        private const val SAVED_WIDTH = "SAVED_WIDTH"
+        private const val SAVED_HEIGHT = "SAVED_HEIGHT"
+        private const val SAVED_OFFSET_Y = "SAVED_OFFSET_Y"
+        private const val SAVED_PADDING = "SAVED_PADDING"
+        private const val SAVED_ANIM_STYLE = "SAVED_ANIM_STYLE"
+        private const val SAVED_DIM_ENABLED = "SAVED_DIM_ENABLED"
+        private const val SAVED_BACKGROUND_COLOR = "SAVED_BACKGROUND_COLOR"
+        private const val SAVED_RADIUS = "SAVED_RADIUS"
+        private const val SAVED_ALPHA = "SAVED_ALPHA"
+        private const val SAVED_X = "SAVED_X"
+        private const val SAVED_Y = "SAVED_Y"
     }
 }

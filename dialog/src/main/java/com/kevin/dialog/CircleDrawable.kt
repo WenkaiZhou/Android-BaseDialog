@@ -21,7 +21,7 @@ import android.graphics.drawable.shapes.RoundRectShape
 /**
  * CircleDrawable
  *
- * @author zhouwenkai@baidu.com, Created on 2019-02-17 21:09:56
+ * @author zwenkai@foxmail.com, Created on 2019-02-17 21:09:56
  *         Major Function：<b>CircleDrawable</b>
  *         <p/>
  *         Note: If you modify this class please fill in the following content as a record.
