@@ -52,10 +52,10 @@
             android:layout_height="match_parent"
             android:background="@android:color/white"
             android:orientation="vertical"
-            android:paddingBottom="60px"
             android:paddingLeft="30dp"
+            android:paddingTop="30px"
             android:paddingRight="30dp"
-            android:paddingTop="30px">
+            android:paddingBottom="60px">
 
             <TextView
                 android:layout_width="match_parent"
