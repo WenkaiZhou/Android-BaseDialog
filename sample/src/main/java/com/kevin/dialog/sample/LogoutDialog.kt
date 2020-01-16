@@ -1,6 +1,7 @@
 package com.kevin.dialog.sample
 
 import android.content.Context
+import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -19,7 +20,15 @@ import com.kevin.dialog.BaseDialog
  */
 class LogoutDialog : BaseDialog() {
 
-    private lateinit var builder: Builder
+    private var builder: Builder? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        this.retainInstance = true
+        if(builder == null) {
+            dismiss()
+        }
+    }
 
     override fun createView(context: Context?, inflater: LayoutInflater, container: ViewGroup?): View {
         val binding = LogoutDialogBinding.inflate(LayoutInflater.from(getContext()), container, false)
@@ -28,12 +37,12 @@ class LogoutDialog : BaseDialog() {
     }
 
     fun show(): LogoutDialog {
-        super.show(builder.activity.supportFragmentManager, TAG)
+        super.show(builder!!.activity.supportFragmentManager, TAG)
         return this
     }
 
     fun onLogoutClicked(view: View) {
-        builder.logoutListener?.invoke(this, view)
+        builder!!.logoutListener?.invoke(this, view)
     }
 
     fun onCancelClicked(view: View) {

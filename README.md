@@ -84,7 +84,15 @@ setY(y: Int) | 设置对话框在Y方向偏移量 | 0
     ```kotlin
     class LogoutDialog : BaseDialog() {
     
-        private lateinit var builder: Builder
+        private var builder: Builder? = null
+     
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            this.retainInstance = true
+            if(builder == null) {
+                dismiss()
+            }
+        }
     
         // ... ...
     
@@ -92,7 +100,7 @@ setY(y: Int) | 设置对话框在Y方向偏移量 | 0
             super.onViewCreated(view, savedInstanceState)
             // 设置按钮点击的监听
             view.findViewById<TextView>(R.id.logout_ok).setOnClickListener {
-                builder.logoutListener?.invoke(this, view)
+                builder!!.logoutListener?.invoke(this, view)
             }
         }
     }
@@ -106,7 +114,7 @@ setY(y: Int) | 设置对话框在Y方向偏移量 | 0
         // ... ...
     
         fun show(): LogoutDialog {
-            super.show(builder.activity.supportFragmentManager, TAG)
+            super.show(builder!!.activity.supportFragmentManager, TAG)
             return this
         }
     
@@ -172,7 +180,7 @@ setY(y: Int) | 设置对话框在Y方向偏移量 | 0
         // ... ...
      
         fun onLogoutClicked(view: View) {
-            builder.logoutListener?.invoke(this, view)
+            builder!!.logoutListener?.invoke(this, view)
         }
         
         // ... ...

@@ -47,12 +47,15 @@ class CommonDialog : BaseDialog() {
     private var negativeButton: TextView? = null
     private var positiveButton: TextView? = null
     private var dividerView: View? = null
-    private lateinit var builder: Builder
+    private var builder: Builder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         this.isCancelable = true
         this.retainInstance = true
-        super.onCreate(savedInstanceState)
+        if (builder == null) {
+            dismiss()
+        }
     }
 
     override fun createView(
@@ -60,38 +63,38 @@ class CommonDialog : BaseDialog() {
         inflater: LayoutInflater,
         container: ViewGroup?
     ): View {
-        val layoutRes = builder.getLayoutRes() ?: R.layout.layout_common_dialog
+        val layoutRes = builder!!.getLayoutRes() ?: R.layout.layout_common_dialog
         return inflater.inflate(layoutRes, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews(view)
-        builder.getBindViewCallback()?.invoke(this, view)
+        builder!!.getBindViewCallback()?.invoke(this, view)
 
-        if (builder.getTitle()?.isNotBlank() == true) {
-            titleView?.text = Html.fromHtml(builder.getTitle())
+        if (builder!!.getTitle()?.isNotBlank() == true) {
+            titleView?.text = Html.fromHtml(builder!!.getTitle())
         } else {
             titleView?.visibility = View.GONE
         }
-        if (builder.getContent()?.isNotBlank() == true) {
-            contentView?.text = Html.fromHtml(builder.getContent())
+        if (builder!!.getContent()?.isNotBlank() == true) {
+            contentView?.text = Html.fromHtml(builder!!.getContent())
         } else {
             contentView?.visibility = View.GONE
         }
-        if (builder.getNegativeButton()?.isNotBlank() == true) {
-            negativeButton?.text = builder.getNegativeButton()
+        if (builder!!.getNegativeButton()?.isNotBlank() == true) {
+            negativeButton?.text = builder!!.getNegativeButton()
             negativeButton?.setOnClickListener {
-                builder.getOnNegativeClickListener()?.invoke(this)
+                builder!!.getOnNegativeClickListener()?.invoke(this)
             }
         } else {
             negativeButton?.visibility = View.GONE
             dividerView?.visibility = View.GONE
         }
-        if (builder.getPositiveButton()?.isNotBlank() == true) {
-            positiveButton?.text = builder.getPositiveButton()
+        if (builder!!.getPositiveButton()?.isNotBlank() == true) {
+            positiveButton?.text = builder!!.getPositiveButton()
             positiveButton?.setOnClickListener {
-                builder.getOnPositiveClickListener()?.invoke(this)
+                builder!!.getOnPositiveClickListener()?.invoke(this)
             }
         } else {
             positiveButton?.visibility = View.GONE
@@ -109,19 +112,19 @@ class CommonDialog : BaseDialog() {
 
     fun show(): CommonDialog {
         if (!isAdded) {
-            show(builder.getActivity().supportFragmentManager, TAG)
+            show(builder!!.getActivity().supportFragmentManager, TAG)
         }
         return this
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        builder.getOnDismissListener()?.invoke(this)
+        builder!!.getOnDismissListener()?.invoke(this)
     }
 
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
-        builder.getOnCancelListener()?.invoke(this)
+        builder!!.getOnCancelListener()?.invoke(this)
     }
 
     class Builder(private var activity: FragmentActivity) {
