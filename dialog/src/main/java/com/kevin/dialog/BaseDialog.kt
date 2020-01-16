@@ -117,6 +117,7 @@ abstract class BaseDialog : DialogFragment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             view.background = CircleDrawable(backgroundColor, radius)
         } else {
+            @Suppress("DEPRECATION")
             view.setBackgroundDrawable(CircleDrawable(backgroundColor, radius))
         }
         view.alpha = alpha
@@ -176,6 +177,10 @@ abstract class BaseDialog : DialogFragment() {
             transaction.add(this, tag)
             transaction.commitAllowingStateLoss()
         }
+    }
+
+    override fun dismiss() {
+        dismissAllowingStateLoss()
     }
 
     /**
