@@ -69,17 +69,17 @@ class CommonDialog : BaseDialog() {
         initViews(view)
         builder.getBindViewCallback()?.invoke(this, view)
 
-        if (builder.getTitle() != null) {
+        if (builder.getTitle()?.isNotBlank() == true) {
             titleView?.text = Html.fromHtml(builder.getTitle())
         } else {
             titleView?.visibility = View.GONE
         }
-        if (builder.getContent() != null) {
+        if (builder.getContent()?.isNotBlank() == true) {
             contentView?.text = Html.fromHtml(builder.getContent())
         } else {
             contentView?.visibility = View.GONE
         }
-        if (builder.getNegativeButton() != null) {
+        if (builder.getNegativeButton()?.isNotBlank() == true) {
             negativeButton?.text = builder.getNegativeButton()
             negativeButton?.setOnClickListener {
                 builder.getOnNegativeClickListener()?.invoke(this)
@@ -88,7 +88,7 @@ class CommonDialog : BaseDialog() {
             negativeButton?.visibility = View.GONE
             dividerView?.visibility = View.GONE
         }
-        if (builder.getPositiveButton() != null) {
+        if (builder.getPositiveButton()?.isNotBlank() == true) {
             positiveButton?.text = builder.getPositiveButton()
             positiveButton?.setOnClickListener {
                 builder.getOnPositiveClickListener()?.invoke(this)
@@ -189,7 +189,7 @@ class CommonDialog : BaseDialog() {
 
         @JvmOverloads
         fun setNegativeButton(
-            negativeButtonText: String,
+            negativeButtonText: String?,
             listener: ((dialog: CommonDialog) -> Unit)? = null
         ): Builder {
             this.negativeButtonText = negativeButtonText
@@ -221,7 +221,7 @@ class CommonDialog : BaseDialog() {
 
         @JvmOverloads
         fun setPositiveButton(
-            positiveButtonText: String,
+            positiveButtonText: String?,
             listener: ((dialog: CommonDialog) -> Unit)? = null
         ): Builder {
             this.positiveButtonText = positiveButtonText
