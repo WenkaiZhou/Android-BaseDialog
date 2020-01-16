@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageButton
+import android.widget.Toast
 import com.kevin.delegationadapter.DelegationAdapter
 import java.util.*
 
@@ -39,6 +40,7 @@ class MainActivity : AppCompatActivity() {
             0 -> {
                 LogoutDialog.Builder(this)
                     .setOnLogoutListener { dialog, view ->
+                        Toast.makeText(this@MainActivity, "点击了退出登录", Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
                     }
                     .build()
