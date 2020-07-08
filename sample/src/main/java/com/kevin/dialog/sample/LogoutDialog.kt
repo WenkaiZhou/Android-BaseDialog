@@ -24,7 +24,6 @@ class LogoutDialog : BaseDialog() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.retainInstance = true
         if(builder == null) {
             dismiss()
         }

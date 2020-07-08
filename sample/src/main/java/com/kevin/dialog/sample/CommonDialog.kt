@@ -143,7 +143,7 @@ class CommonDialog : BaseDialog() {
         private var gravity = Gravity.CENTER // 对话框的位置
         private var canceledOnTouchOutside = true // 是否触摸外部关闭
         private var canceledBack = true // 是否返回键关闭
-        private var width = 0.9f // 对话框宽度，范围：0-1；1整屏宽
+        private var width = 0.73f // 对话框宽度，范围：0-1；1整屏宽
         private var height = 0.0f // 对话框宽度，范围：0-1；1整屏高，0默认包裹内容
         private var offsetY = 0f // Y方向偏移，范围：-1 ~ 1；1向下整屏幕
         private var padding: IntArray? = null // 对话框与屏幕边缘距离
@@ -156,7 +156,7 @@ class CommonDialog : BaseDialog() {
         private var y: Int = 0
 
         init {
-            radius = (10 * activity.resources.displayMetrics.density).toInt()
+            radius = (8 * activity.resources.displayMetrics.density).toInt()
         }
 
         fun setLayoutRes(@LayoutRes layoutRes: Int): Builder {

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingTop="20dp">
+    android:paddingTop="30dp">
 
     <TextView
         android:id="@id/common_dialog_title"
@@ -14,9 +14,9 @@
         android:gravity="center"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:paddingBottom="20dp"
         android:textColor="#333333"
-        android:textSize="20sp"
+        android:textSize="18sp"
+        android:textStyle="bold"
         tools:text="This is a title." />
 
     <TextView
@@ -24,18 +24,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:lineSpacingExtra="3dp"
-        android:paddingLeft="23dp"
-        android:paddingRight="23dp"
-        android:paddingBottom="20dp"
+        android:lineSpacingExtra="8dp"
+        android:paddingLeft="22dp"
+        android:paddingTop="14dp"
+        android:paddingRight="22dp"
         android:textColor="#555555"
-        android:textSize="14sp"
+        android:textSize="15sp"
         tools:text="This is the content;" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#F1F1F1" />
+        android:layout_height="1px"
+        android:background="#F1F1F1"
+        android:layout_marginTop="30dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -51,11 +52,12 @@
             android:gravity="center"
             android:textColor="#555555"
             android:textSize="17sp"
+            android:textStyle="bold"
             tools:text="NEGATIVE BUTTON" />
 
         <View
             android:id="@+id/common_dialog_negative_positive_divider"
-            android:layout_width="1dp"
+            android:layout_width="1px"
             android:layout_height="match_parent"
             android:background="#F1F1F1" />
 
@@ -66,8 +68,9 @@
             android:layout_weight="1"
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
-            android:textColor="?colorAccent"
+            android:textColor="#00C8C8"
             android:textSize="17sp"
+            android:textStyle="bold"
             tools:text="POSITIVE BUTTON" />
     </LinearLayout>
 
