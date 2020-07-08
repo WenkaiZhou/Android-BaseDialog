@@ -55,7 +55,10 @@ abstract class BaseDialog : DialogFragment() {
     private var animStyle: Int = 0 // 显示动画
     private var dimEnabled = true // 背景阴影
     private var backgroundColor = Color.TRANSPARENT // 对话框的背景色
-    private var radius = 0 // 圆角半径
+    private var leftTopRadius = 0 // 左上角圆角半径
+    private var rightTopRadius = 0 // 右上角圆角半径
+    private var leftBottomRadius = 0 // 左下角圆角半径
+    private var rightBottomRadius = 0 // 右下角圆角半径
     private var alpha = 1f // 对话框透明度，范围：0-1；1不透明
     private var x: Int = 0 // X方向偏移量
     private var y: Int = 0 // Y方向偏移量
@@ -78,7 +81,10 @@ abstract class BaseDialog : DialogFragment() {
             animStyle = savedInstanceState.getInt(SAVED_ANIM_STYLE)
             dimEnabled = savedInstanceState.getBoolean(SAVED_DIM_ENABLED)
             backgroundColor = savedInstanceState.getInt(SAVED_BACKGROUND_COLOR)
-            radius = savedInstanceState.getInt(SAVED_RADIUS)
+            leftTopRadius = savedInstanceState.getInt(SAVED_LEFT_TOP_RADIUS)
+            rightTopRadius = savedInstanceState.getInt(SAVED_RIGHT_TOP_RADIUS)
+            leftBottomRadius = savedInstanceState.getInt(SAVED_LEFT_BOTTOM_RADIUS)
+            rightBottomRadius = savedInstanceState.getInt(SAVED_RIGHT_BOTTOM_RADIUS)
             alpha = savedInstanceState.getFloat(SAVED_ALPHA)
             x = savedInstanceState.getInt(SAVED_X)
             y = savedInstanceState.getInt(SAVED_Y)
@@ -99,7 +105,10 @@ abstract class BaseDialog : DialogFragment() {
         outState.putInt(SAVED_ANIM_STYLE, animStyle)
         outState.putBoolean(SAVED_DIM_ENABLED, dimEnabled)
         outState.putInt(SAVED_BACKGROUND_COLOR, backgroundColor)
-        outState.putInt(SAVED_RADIUS, radius)
+        outState.putInt(SAVED_LEFT_TOP_RADIUS, leftTopRadius)
+        outState.putInt(SAVED_RIGHT_TOP_RADIUS, rightTopRadius)
+        outState.putInt(SAVED_LEFT_BOTTOM_RADIUS, leftBottomRadius)
+        outState.putInt(SAVED_RIGHT_BOTTOM_RADIUS, rightBottomRadius)
         outState.putFloat(SAVED_ALPHA, alpha)
         outState.putInt(SAVED_X, x)
         outState.putInt(SAVED_Y, y)
@@ -112,13 +121,24 @@ abstract class BaseDialog : DialogFragment() {
         return dialog
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = createView(context, inflater, container)
+        val background = CircleDrawable(
+            backgroundColor = backgroundColor,
+            leftTopRadius = leftTopRadius,
+            rightTopRadius = rightTopRadius,
+            leftBottomRadius = leftBottomRadius,
+            rightBottomRadius = rightBottomRadius
+        )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            view.background = CircleDrawable(backgroundColor, radius)
+            view.background = background
         } else {
             @Suppress("DEPRECATION")
-            view.setBackgroundDrawable(CircleDrawable(backgroundColor, radius))
+            view.setBackgroundDrawable(background)
         }
         view.alpha = alpha
         return view
@@ -292,7 +312,50 @@ abstract class BaseDialog : DialogFragment() {
      * @param radius 半径
      */
     fun setRadius(radius: Int): BaseDialog {
-        this.radius = radius
+        setLeftTopRadius(radius)
+        setRightTopRadius(radius)
+        setLeftBottomRadius(radius)
+        setRightBottomRadius(radius)
+        return this
+    }
+
+    /**
+     * 设置对话框左上角圆角
+     *
+     * @param radius 半径
+     */
+    fun setLeftTopRadius(radius: Int): BaseDialog {
+        this.leftTopRadius = radius
+        return this
+    }
+
+    /**
+     * 设置对话框右上角圆角
+     *
+     * @param radius 半径
+     */
+    fun setRightTopRadius(radius: Int): BaseDialog {
+        this.rightTopRadius = radius
+        return this
+    }
+
+    /**
+     * 设置对话框左上角圆角
+     *
+     * @param radius 半径
+     */
+    fun setLeftBottomRadius(radius: Int): BaseDialog {
+        this.leftBottomRadius = radius
+        return this
+    }
+
+    /**
+     * 设置对话框右上角圆角
+     *
+     * @param radius 半径
+     */
+    fun setRightBottomRadius(radius: Int): BaseDialog {
+        this.rightBottomRadius = radius
         return this
     }
 
@@ -326,7 +389,11 @@ abstract class BaseDialog : DialogFragment() {
         return this
     }
 
-    abstract fun createView(context: Context?, inflater: LayoutInflater, container: ViewGroup?): View
+    abstract fun createView(
+        context: Context?,
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): View
 
     companion object {
         private const val SAVED_GRAVITY = "SAVED_GRAVITY"
@@ -339,7 +406,10 @@ abstract class BaseDialog : DialogFragment() {
         private const val SAVED_ANIM_STYLE = "SAVED_ANIM_STYLE"
         private const val SAVED_DIM_ENABLED = "SAVED_DIM_ENABLED"
         private const val SAVED_BACKGROUND_COLOR = "SAVED_BACKGROUND_COLOR"
-        private const val SAVED_RADIUS = "SAVED_RADIUS"
+        private const val SAVED_LEFT_TOP_RADIUS = "SAVED_LEFT_TOP_RADIUS"
+        private const val SAVED_RIGHT_TOP_RADIUS = "SAVED_RIGHT_TOP_RADIUS"
+        private const val SAVED_LEFT_BOTTOM_RADIUS = "SAVED_LEFT_BOTTOM_RADIUS"
+        private const val SAVED_RIGHT_BOTTOM_RADIUS = "SAVED_RIGHT_BOTTOM_RADIUS"
         private const val SAVED_ALPHA = "SAVED_ALPHA"
         private const val SAVED_X = "SAVED_X"
         private const val SAVED_Y = "SAVED_Y"

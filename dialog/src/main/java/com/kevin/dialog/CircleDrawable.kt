@@ -35,8 +35,6 @@ class CircleDrawable(
     leftBottomRadius: Int
 ) : ShapeDrawable() {
 
-    constructor(backgroundColor: Int, radius: Int) : this(backgroundColor, radius, radius, radius, radius)
-
     init {
         paint.color = backgroundColor
         shape = getRoundRectShape(leftTopRadius, rightTopRadius, rightBottomRadius, leftBottomRadius)

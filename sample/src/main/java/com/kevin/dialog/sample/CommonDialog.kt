@@ -150,13 +150,20 @@ class CommonDialog : BaseDialog() {
         private var animStyle: Int = 0 // 显示动画
         private var dimEnabled = true // 边缘阴影
         private var backgroundColor = Color.WHITE // 对话框的背景色
-        private var radius = 0 // 圆角半径
+        private var leftTopRadius = 0 // 左上角圆角半径
+        private var rightTopRadius = 0 // 右上角圆角半径
+        private var leftBottomRadius = 0 // 左下角圆角半径
+        private var rightBottomRadius = 0 // 右下角圆角半径
         private var alpha = 1f // 对话框透明度，范围：0-1；1不透明
         private var x: Int = 0
         private var y: Int = 0
 
         init {
-            radius = (8 * activity.resources.displayMetrics.density).toInt()
+            val radius = (8 * activity.resources.displayMetrics.density).toInt()
+            leftTopRadius = radius
+            rightTopRadius = radius
+            leftBottomRadius = radius
+            rightBottomRadius = radius
         }
 
         fun setLayoutRes(@LayoutRes layoutRes: Int): Builder {
@@ -363,7 +370,50 @@ class CommonDialog : BaseDialog() {
          * @param radius 半径
          */
         fun setRadius(radius: Int): Builder {
-            this.radius = radius
+            setLeftTopRadius(radius)
+            setRightTopRadius(radius)
+            setLeftBottomRadius(radius)
+            setRightBottomRadius(radius)
+            return this
+        }
+
+        /**
+         * 设置对话框左上角圆角
+         *
+         * @param radius 半径
+         */
+        fun setLeftTopRadius(radius: Int): Builder {
+            this.leftTopRadius = radius
+            return this
+        }
+
+        /**
+         * 设置对话框右上角圆角
+         *
+         * @param radius 半径
+         */
+        fun setRightTopRadius(radius: Int): Builder {
+            this.rightTopRadius = radius
+            return this
+        }
+
+        /**
+         * 设置对话框左上角圆角
+         *
+         * @param radius 半径
+         */
+        fun setLeftBottomRadius(radius: Int): Builder {
+            this.leftBottomRadius = radius
+            return this
+        }
+
+        /**
+         * 设置对话框右上角圆角
+         *
+         * @param radius 半径
+         */
+        fun setRightBottomRadius(radius: Int): Builder {
+            this.rightBottomRadius = radius
             return this
         }
 
@@ -418,7 +468,10 @@ class CommonDialog : BaseDialog() {
                 .setAnimations(animStyle)
                 .setDimEnabled(dimEnabled)
                 .setBackgroundColor(backgroundColor)
-                .setRadius(radius)
+                .setLeftTopRadius(leftTopRadius)
+                .setRightTopRadius(rightTopRadius)
+                .setLeftBottomRadius(leftBottomRadius)
+                .setRightBottomRadius(rightBottomRadius)
                 .setAlpha(alpha)
                 .setX(x)
                 .setY(y)
