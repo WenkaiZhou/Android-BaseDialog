@@ -2,13 +2,13 @@
 DialogFragment的封装
 
 [![License](https://img.shields.io/badge/License%20-Apache%202-337ab7.svg?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0)
-[![JCenter](https://img.shields.io/badge/%20JCenter%20-1.0.6-5bc0de.svg?style=flat-square)](https://bintray.com/xuehuayous/maven/Android-BaseDialog/_latestVersion)
+[![JCenter](https://img.shields.io/badge/%20JCenter%20-1.0.7-5bc0de.svg?style=flat-square)](https://bintray.com/xuehuayous/maven/Android-BaseDialog/_latestVersion)
 [![MinSdk](https://img.shields.io/badge/%20MinSdk%20-%2014%2B%20-f0ad4e.svg?style=flat-square)](https://android-arsenal.com/api?level=14)
 
 ## 引入
 
 ```
-implementation 'com.kevin:basedialog:1.0.6'
+implementation 'com.kevin:basedialog:1.0.7'
 ```
 
 ## 说明
@@ -28,6 +28,10 @@ setAnimations(animStyle: Int) | 设置动画 | 0 (无动画)
 setDimEnabled(dimEnabled: Boolean) | 设置背景是否阴影 | true
 setBackgroundColor(@ColorInt color: Int) | 设置对话框背景颜色 | Color.TRANSPARENT
 setRadius(radius: Int) | 设置四周圆角弧度 | 0
+setLeftTopRadius(radius: Int) | 设置左上圆角弧度 | 0
+setRightTopRadius(radius: Int) | 设置右上圆角弧度 | 0
+setLeftBottomRadius(radius: Int) | 设置左下圆角弧度 | 0
+setRightBottomRadius(radius: Int) | 设置右下圆角弧度 | 0
 setAlpha(alpha: Float) | 设置透明度 | 1.0
 setX(x: Int) | 设置对话框在X方向偏移量 | 0
 setY(y: Int) | 设置对话框在Y方向偏移量 | 0
