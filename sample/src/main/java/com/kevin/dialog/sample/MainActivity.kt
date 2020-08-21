@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                     .setContent("其实🏂真的非常好玩，你不去吗？")
                     .setCanceledOnTouchOutside(false)
                     .setGravity(Gravity.BOTTOM)
-                    .setWidth(1.0f)
+                    .setWidthRatio(1.0f)
                     .setBackgroundColor(Color.TRANSPARENT)
                     .onBindView { dialog, view ->
                         view.findViewById<ImageButton>(R.id.but_cancel).setOnClickListener {

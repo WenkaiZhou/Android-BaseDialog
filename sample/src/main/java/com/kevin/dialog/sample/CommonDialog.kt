@@ -143,8 +143,8 @@ class CommonDialog : BaseDialog() {
         private var gravity = Gravity.CENTER // 对话框的位置
         private var canceledOnTouchOutside = true // 是否触摸外部关闭
         private var canceledBack = true // 是否返回键关闭
-        private var width = 0.73f // 对话框宽度，范围：0-1；1整屏宽
-        private var height = 0.0f // 对话框宽度，范围：0-1；1整屏高，0默认包裹内容
+        private var widthRatio = 0.73f // 对话框宽度，范围：0-1；1整屏宽
+        private var heightRatio = 0.0f // 对话框宽度，范围：0-1；1整屏高，0默认包裹内容
         private var offsetY = 0f // Y方向偏移，范围：-1 ~ 1；1向下整屏幕
         private var padding: IntArray? = null // 对话框与屏幕边缘距离
         private var animStyle: Int = 0 // 显示动画
@@ -292,22 +292,22 @@ class CommonDialog : BaseDialog() {
         }
 
         /**
-         * 设置对话框宽度
+         * 设置对话框宽度比例
          *
-         * @param width 0.0 ~ 1.0
+         * @param widthRatio 0.0 ~ 1.0
          */
-        fun setWidth(@FloatRange(from = 0.0, to = 1.0) width: Float): Builder {
-            this.width = width
+        fun setWidthRatio(@FloatRange(from = 0.0, to = 1.0) widthRatio: Float): Builder {
+            this.widthRatio = widthRatio
             return this
         }
 
         /**
-         * 设置对话框高度
+         * 设置对话框高度比例
          *
-         * @param height 0.0 ~ 1.0 0:默认包裹内容 1:整屏高
+         * @param heightRatio 0.0 ~ 1.0 0:默认包裹内容 1:整屏高
          */
-        fun setHeight(@FloatRange(from = 0.0, to = 1.0) height: Float): Builder {
-            this.height = height
+        fun setHeightRatio(@FloatRange(from = 0.0, to = 1.0) heightRatio: Float): Builder {
+            this.heightRatio = heightRatio
             return this
         }
 
@@ -462,8 +462,8 @@ class CommonDialog : BaseDialog() {
             dialog.setGravity(gravity)
                 .setCanceledBack(canceledBack)
                 .setCanceledOnTouchOutside(canceledOnTouchOutside)
-                .setWidth(width)
-                .setHeight(height)
+                .setWidthRatio(widthRatio)
+                .setHeightRatio(heightRatio)
                 .setOffsetY(offsetY)
                 .setAnimations(animStyle)
                 .setDimEnabled(dimEnabled)

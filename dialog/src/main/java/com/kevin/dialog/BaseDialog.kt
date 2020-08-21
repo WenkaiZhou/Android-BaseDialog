@@ -48,8 +48,8 @@ abstract class BaseDialog : DialogFragment() {
     private var gravity = Gravity.CENTER // 对话框的位置
     private var canceledOnTouchOutside = true // 是否触摸外部关闭
     private var canceledBack = true // 是否返回键关闭
-    private var width = 0.9f // 对话框宽度，范围：0-1；1整屏宽
-    private var height = 0.0f // 对话框宽度，范围：0-1；1整屏高，0默认包裹内容
+    private var widthRatio = 0.9f // 对话框宽度，范围：0-1；1整屏宽
+    private var heightRatio = 0.0f // 对话框宽度，范围：0-1；1整屏高，0默认包裹内容
     private var offsetY = 0f // Y方向偏移百分比，范围：-1 ~ 1；1向下整屏幕
     private var padding: IntArray? = null // 对话框与屏幕边缘距离
     private var animStyle: Int = 0 // 显示动画
@@ -74,8 +74,8 @@ abstract class BaseDialog : DialogFragment() {
             gravity = savedInstanceState.getInt(SAVED_GRAVITY)
             canceledOnTouchOutside = savedInstanceState.getBoolean(SAVED_TOUCH_OUT)
             canceledBack = savedInstanceState.getBoolean(SAVED_CANCELED_BACK)
-            width = savedInstanceState.getFloat(SAVED_WIDTH)
-            height = savedInstanceState.getFloat(SAVED_HEIGHT)
+            widthRatio = savedInstanceState.getFloat(SAVED_WIDTH_RATIO)
+            heightRatio = savedInstanceState.getFloat(SAVED_HEIGHT_RATIO)
             offsetY = savedInstanceState.getFloat(SAVED_OFFSET_Y)
             padding = savedInstanceState.getIntArray(SAVED_PADDING)
             animStyle = savedInstanceState.getInt(SAVED_ANIM_STYLE)
@@ -96,8 +96,8 @@ abstract class BaseDialog : DialogFragment() {
         outState.putInt(SAVED_GRAVITY, gravity)
         outState.putBoolean(SAVED_TOUCH_OUT, canceledOnTouchOutside)
         outState.putBoolean(SAVED_CANCELED_BACK, canceledBack)
-        outState.putFloat(SAVED_WIDTH, width)
-        outState.putFloat(SAVED_HEIGHT, height)
+        outState.putFloat(SAVED_WIDTH_RATIO, widthRatio)
+        outState.putFloat(SAVED_HEIGHT_RATIO, heightRatio)
         outState.putFloat(SAVED_OFFSET_Y, offsetY)
         if (padding != null) {
             outState.putIntArray(SAVED_PADDING, padding)
@@ -161,9 +161,9 @@ abstract class BaseDialog : DialogFragment() {
         val wlp = window.attributes
         val dm = DisplayMetrics()
         activity!!.windowManager.defaultDisplay.getMetrics(dm) // 获取屏幕宽
-        wlp.width = (dm.widthPixels * width).toInt() // 宽度按屏幕宽度的百分比设置
-        if (height > 0) {
-            wlp.height = (dm.heightPixels * height).toInt() // 高度按屏幕宽度的百分比设置
+        wlp.width = (dm.widthPixels * widthRatio).toInt() // 宽度按屏幕宽度的百分比设置
+        if (heightRatio > 0) {
+            wlp.height = (dm.heightPixels * heightRatio).toInt() // 高度按屏幕宽度的百分比设置
         }
         wlp.gravity = gravity
         wlp.x = x
@@ -234,22 +234,22 @@ abstract class BaseDialog : DialogFragment() {
     }
 
     /**
-     * 设置对话框宽度
+     * 设置对话框宽度比例
      *
-     * @param width 0.0 ~ 1.0
+     * @param widthRatio 0.0 ~ 1.0
      */
-    fun setWidth(@FloatRange(from = 0.0, to = 1.0) width: Float): BaseDialog {
-        this.width = width
+    fun setWidthRatio(@FloatRange(from = 0.0, to = 1.0) widthRatio: Float): BaseDialog {
+        this.widthRatio = widthRatio
         return this
     }
 
     /**
-     * 设置对话框高度
+     * 设置对话框高度比例
      *
-     * @param height 0.0 ~ 1.0 0:默认包裹内容 1:整屏高
+     * @param heightRatio 0.0 ~ 1.0 0:默认包裹内容 1:整屏高
      */
-    fun setHeight(@FloatRange(from = 0.0, to = 1.0) height: Float): BaseDialog {
-        this.height = height
+    fun setHeightRatio(@FloatRange(from = 0.0, to = 1.0) heightRatio: Float): BaseDialog {
+        this.heightRatio = heightRatio
         return this
     }
 
@@ -399,8 +399,8 @@ abstract class BaseDialog : DialogFragment() {
         private const val SAVED_GRAVITY = "SAVED_GRAVITY"
         private const val SAVED_TOUCH_OUT = "SAVED_TOUCH_OUT"
         private const val SAVED_CANCELED_BACK = "SAVED_CANCELED_BACK"
-        private const val SAVED_WIDTH = "SAVED_WIDTH"
-        private const val SAVED_HEIGHT = "SAVED_HEIGHT"
+        private const val SAVED_WIDTH_RATIO = "SAVED_WIDTH_RATIO"
+        private const val SAVED_HEIGHT_RATIO = "SAVED_HEIGHT_RATIO"
         private const val SAVED_OFFSET_Y = "SAVED_OFFSET_Y"
         private const val SAVED_PADDING = "SAVED_PADDING"
         private const val SAVED_ANIM_STYLE = "SAVED_ANIM_STYLE"

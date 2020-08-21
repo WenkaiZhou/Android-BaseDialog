@@ -20,8 +20,8 @@ BaseDialog对Dialog进行了常用方法的封装，具体如下：
 setGravity(gravity: Int) | 设置设置对话框位置 | Gravity.CENTER
 setCanceledOnTouchOutside(cancel: Boolean) | 设置是否触摸外部关闭 | true
 setCanceledBack(cancel: Boolean) | 是否是否返回键关闭 | true
-setWidth(width: Float) | 设置宽度占屏幕百分比 | 0.9
-setHeight(height: Float) | 设置高度占屏幕百分比 | 0 (包裹内容)
+setWidthRatio(widthRatio: Float) | 设置宽度占屏幕百分比 | 0.9
+setHeightRatio(heightRatio: Float) | 设置高度占屏幕百分比 | 0 (包裹内容)
 setOffsetY(offsetY: Float) | 设置Y方向偏移百分比 | 0
 setPadding(left: Int, top: Int, right: Int, bottom: Int) | 设置边距 | 0, 0, 0, 0
 setAnimations(animStyle: Int) | 设置动画 | 0 (无动画)
