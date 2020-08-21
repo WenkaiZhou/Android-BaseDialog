@@ -23,6 +23,7 @@ import android.os.Build
 import android.os.Bundle
 import android.support.annotation.ColorInt
 import android.support.annotation.FloatRange
+import android.support.annotation.IntRange
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
@@ -48,8 +49,10 @@ abstract class BaseDialog : DialogFragment() {
     private var gravity = Gravity.CENTER // 对话框的位置
     private var canceledOnTouchOutside = true // 是否触摸外部关闭
     private var canceledBack = true // 是否返回键关闭
-    private var widthRatio = 0.9f // 对话框宽度，范围：0-1；1整屏宽
-    private var heightRatio = 0.0f // 对话框宽度，范围：0-1；1整屏高，0默认包裹内容
+    private var width = -1 // 对话框宽度
+    private var height = -1 // 对话框高度
+    private var widthRatio = 0.9f // 对话框宽度比例，范围：0-1；1整屏宽
+    private var heightRatio = 0.0f // 对话框宽度比例，范围：0-1；1整屏高，0默认包裹内容
     private var offsetY = 0f // Y方向偏移百分比，范围：-1 ~ 1；1向下整屏幕
     private var padding: IntArray? = null // 对话框与屏幕边缘距离
     private var animStyle: Int = 0 // 显示动画
@@ -74,6 +77,8 @@ abstract class BaseDialog : DialogFragment() {
             gravity = savedInstanceState.getInt(SAVED_GRAVITY)
             canceledOnTouchOutside = savedInstanceState.getBoolean(SAVED_TOUCH_OUT)
             canceledBack = savedInstanceState.getBoolean(SAVED_CANCELED_BACK)
+            width = savedInstanceState.getInt(SAVED_WIDTH)
+            height = savedInstanceState.getInt(SAVED_HEIGHT)
             widthRatio = savedInstanceState.getFloat(SAVED_WIDTH_RATIO)
             heightRatio = savedInstanceState.getFloat(SAVED_HEIGHT_RATIO)
             offsetY = savedInstanceState.getFloat(SAVED_OFFSET_Y)
@@ -96,6 +101,8 @@ abstract class BaseDialog : DialogFragment() {
         outState.putInt(SAVED_GRAVITY, gravity)
         outState.putBoolean(SAVED_TOUCH_OUT, canceledOnTouchOutside)
         outState.putBoolean(SAVED_CANCELED_BACK, canceledBack)
+        outState.putInt(SAVED_WIDTH, width)
+        outState.putInt(SAVED_HEIGHT, height)
         outState.putFloat(SAVED_WIDTH_RATIO, widthRatio)
         outState.putFloat(SAVED_HEIGHT_RATIO, heightRatio)
         outState.putFloat(SAVED_OFFSET_Y, offsetY)
@@ -161,9 +168,17 @@ abstract class BaseDialog : DialogFragment() {
         val wlp = window.attributes
         val dm = DisplayMetrics()
         activity!!.windowManager.defaultDisplay.getMetrics(dm) // 获取屏幕宽
-        wlp.width = (dm.widthPixels * widthRatio).toInt() // 宽度按屏幕宽度的百分比设置
-        if (heightRatio > 0) {
-            wlp.height = (dm.heightPixels * heightRatio).toInt() // 高度按屏幕宽度的百分比设置
+        if (width == -1) {
+            wlp.width = (dm.widthPixels * widthRatio).toInt() // 宽度按屏幕宽度的百分比设置
+        } else {
+            wlp.width = width
+        }
+        if (height == -1) {
+            if (heightRatio > 0) {
+                wlp.height = (dm.heightPixels * heightRatio).toInt() // 高度按屏幕宽度的百分比设置
+            }
+        } else {
+            wlp.height = height
         }
         wlp.gravity = gravity
         wlp.x = x
@@ -230,6 +245,26 @@ abstract class BaseDialog : DialogFragment() {
      */
     fun setCanceledBack(cancel: Boolean): BaseDialog {
         canceledBack = cancel
+        return this
+    }
+
+    /**
+     * 设置对话框宽度
+     *
+     * @param width  > 0
+     */
+    fun setWidth(@IntRange(from = 0) width: Int): BaseDialog {
+        this.width = width
+        return this
+    }
+
+    /**
+     * 设置对话框高度
+     *
+     * @param height > 0
+     */
+    fun setHeight(@IntRange(from = 0) height: Int): BaseDialog {
+        this.height = height
         return this
     }
 
@@ -399,6 +434,8 @@ abstract class BaseDialog : DialogFragment() {
         private const val SAVED_GRAVITY = "SAVED_GRAVITY"
         private const val SAVED_TOUCH_OUT = "SAVED_TOUCH_OUT"
         private const val SAVED_CANCELED_BACK = "SAVED_CANCELED_BACK"
+        private const val SAVED_WIDTH = "SAVED_WIDTH"
+        private const val SAVED_HEIGHT = "SAVED_HEIGHT"
         private const val SAVED_WIDTH_RATIO = "SAVED_WIDTH_RATIO"
         private const val SAVED_HEIGHT_RATIO = "SAVED_HEIGHT_RATIO"
         private const val SAVED_OFFSET_Y = "SAVED_OFFSET_Y"

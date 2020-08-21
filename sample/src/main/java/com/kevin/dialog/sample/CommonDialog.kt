@@ -21,6 +21,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.annotation.ColorInt
 import android.support.annotation.FloatRange
+import android.support.annotation.IntRange
 import android.support.annotation.LayoutRes
 import android.support.v4.app.FragmentActivity
 import android.text.Html
@@ -143,9 +144,11 @@ class CommonDialog : BaseDialog() {
         private var gravity = Gravity.CENTER // 对话框的位置
         private var canceledOnTouchOutside = true // 是否触摸外部关闭
         private var canceledBack = true // 是否返回键关闭
-        private var widthRatio = 0.73f // 对话框宽度，范围：0-1；1整屏宽
-        private var heightRatio = 0.0f // 对话框宽度，范围：0-1；1整屏高，0默认包裹内容
-        private var offsetY = 0f // Y方向偏移，范围：-1 ~ 1；1向下整屏幕
+        private var width = -1 // 对话框宽度
+        private var height = -1 // 对话框高度
+        private var widthRatio = 0.73f // 对话框宽度比例，范围：0-1；1整屏宽
+        private var heightRatio = 0.0f // 对话框宽度比例，范围：0-1；1整屏高，0默认包裹内容
+        private var offsetY = 0f // Y方向偏移比例，范围：-1 ~ 1；1向下整屏幕
         private var padding: IntArray? = null // 对话框与屏幕边缘距离
         private var animStyle: Int = 0 // 显示动画
         private var dimEnabled = true // 边缘阴影
@@ -288,6 +291,26 @@ class CommonDialog : BaseDialog() {
          */
         fun setCanceledBack(cancel: Boolean): Builder {
             canceledBack = cancel
+            return this
+        }
+
+        /**
+         * 设置对话框宽度
+         *
+         * @param width  > 0
+         */
+        fun setWidth(@IntRange(from = 0) width: Int): Builder {
+            this.width = width
+            return this
+        }
+
+        /**
+         * 设置对话框高度
+         *
+         * @param height > 0
+         */
+        fun setHeight(@IntRange(from = 0) height: Int): Builder {
+            this.height = height
             return this
         }
 
@@ -462,6 +485,8 @@ class CommonDialog : BaseDialog() {
             dialog.setGravity(gravity)
                 .setCanceledBack(canceledBack)
                 .setCanceledOnTouchOutside(canceledOnTouchOutside)
+                .setWidth(width)
+                .setHeight(height)
                 .setWidthRatio(widthRatio)
                 .setHeightRatio(heightRatio)
                 .setOffsetY(offsetY)

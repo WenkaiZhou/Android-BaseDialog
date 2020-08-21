@@ -20,6 +20,8 @@ BaseDialog对Dialog进行了常用方法的封装，具体如下：
 setGravity(gravity: Int) | 设置设置对话框位置 | Gravity.CENTER
 setCanceledOnTouchOutside(cancel: Boolean) | 设置是否触摸外部关闭 | true
 setCanceledBack(cancel: Boolean) | 是否是否返回键关闭 | true
+setWidth(width: Int) | 设置宽度 | 0
+setHeight(height: Int) | 设置高度 | 0
 setWidthRatio(widthRatio: Float) | 设置宽度占屏幕百分比 | 0.9
 setHeightRatio(heightRatio: Float) | 设置高度占屏幕百分比 | 0 (包裹内容)
 setOffsetY(offsetY: Float) | 设置Y方向偏移百分比 | 0
@@ -72,7 +74,7 @@ setY(y: Int) | 设置对话框在Y方向偏移量 | 0
                 dialog.setCanceledBack(false) // 设置屏蔽返回键
                     .setCanceledOnTouchOutside(false) // 设置屏蔽对话框点击外部关闭
                     .setGravity(Gravity.BOTTOM) // 设置对话框在底部
-                    .setWidth(1f) // 设置宽度为屏幕宽度
+                    .setWidthRatio(1f) // 设置宽度为屏幕宽度
                     .setDimEnabled(false) // 设置无黑色透明背景
                     .setAnimations(android.R.style.Animation_InputMethod) // 设置动画
                 dialog.builder = this
