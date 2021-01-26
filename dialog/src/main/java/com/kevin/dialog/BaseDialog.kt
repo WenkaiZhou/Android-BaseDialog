@@ -122,7 +122,7 @@ abstract class BaseDialog : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState)
+        val dialog = NoLeakDialog(requireActivity(), theme)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
         return dialog

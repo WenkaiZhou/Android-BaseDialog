@@ -27,7 +27,7 @@ import android.graphics.drawable.shapes.RoundRectShape
  *         Note: If you modify this class please fill in the following content as a record.
  * @author mender，Modified Date Modify Content:
  */
-class CircleDrawable(
+internal class CircleDrawable(
     backgroundColor: Int,
     leftTopRadius: Int,
     rightTopRadius: Int,
