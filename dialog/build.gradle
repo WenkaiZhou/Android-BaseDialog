@@ -33,32 +33,4 @@ repositories {
 }
 
 //------
-apply plugin: 'org.jetbrains.dokka-android'
-
-task generateSourcesJar(type: Jar) {
-    group = 'jar'
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    options.encoding = "UTF-8"
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
-    outputFormat = "javadoc"
-    outputDirectory = javadoc.destinationDir
-}
-
-task generateJavadoc(type: Jar, dependsOn: dokkaJavadoc) {
-    group = 'jar'
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-ext {
-    kevinSourceDocFiles = [rootProject.file('gradle/android-sources-docs.gradle')]
-}
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+apply from: rootProject.file('gradle/maven_publish.gradle')

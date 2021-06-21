@@ -1,0 +1,115 @@
+/*
+ * Copyright (C) 2021 Baidu, Inc. All Rights Reserved.
+ */
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+// load properties
+Properties properties = new Properties()
+File localPropertiesFile = rootProject.file("local.properties");
+if(localPropertiesFile.exists()){
+    properties.load(localPropertiesFile.newDataInputStream())
+}
+
+def developerId = properties.getProperty("POM_DEVELOPER_ID")
+def developerName = properties.getProperty("POM_DEVELOPER_NAME")
+def developerEmail = properties.getProperty("POM_DEVELOPER_EMAIL")
+
+def ossrhUser = properties.getProperty("OSSRH_USER")
+def ossrhPswd = properties.getProperty("OSSRH_PSWD")
+
+if (project.hasProperty("android")) {
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from android.sourceSets.main.java.srcDirs
+    }
+
+    task javadoc(type: Javadoc) {
+        // https://github.com/novoda/bintray-release/issues/71
+        excludes = ['**/*.kt']
+        source = android.sourceSets.main.java.srcDirs
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+        options.encoding = "utf-8"
+        options.charSet = "utf-8"
+    }
+} else { // Java libraries
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+}
+
+// 强制 Java/JavaDoc 等的编码为 UTF-8
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+tasks.withType(Javadoc) {
+    options.encoding = "UTF-8"
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+// 签名
+signing {
+    required { gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { deployment -> signing.signPom(deployment) }
+
+//            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+            repository(url: "file://${rootProject.projectDir}/android-repo/") {
+                authentication(userName: ossrhUser, password: ossrhPswd)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUser, password: ossrhPswd)
+            }
+
+            pom.groupId = GROUP
+            pom.artifactId = POM_ARTIFACT_ID
+            pom.version = VERSION_NAME
+
+            pom.project {
+                packaging POM_PACKAGING
+                name PROJECT_NAME
+                description POM_DESCRIPTION
+                url PROJECT_URL
+
+                scm {
+                    connection GIT_URL
+                    developerConnection WEB_URL
+                    url PROJECT_URL
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id developerId
+                        name developerName
+                        email developerEmail
+                    }
+                }
+            }
+        }
+    }
+}
+
+// add javadoc/source jar tasks as artifacts
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
