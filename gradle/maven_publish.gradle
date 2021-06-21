@@ -64,12 +64,12 @@ uploadArchives {
         mavenDeployer {
             beforeDeployment { deployment -> signing.signPom(deployment) }
 
-//            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-            repository(url: "file://${rootProject.projectDir}/android-repo/") {
+            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+//            repository(url: "file://${rootProject.projectDir}/../android-repo/m2repository") {
                 authentication(userName: ossrhUser, password: ossrhPswd)
             }
 
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+            snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
                 authentication(userName: ossrhUser, password: ossrhPswd)
             }
 

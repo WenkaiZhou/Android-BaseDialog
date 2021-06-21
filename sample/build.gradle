@@ -42,7 +42,7 @@ dependencies {
     implementation 'com.kevin:delegationadapter-extras:1.1.0'
 
     implementation project(':dialog')
-//    implementation 'com.kevin:basedialog:1.0.0'
+//    implementation 'com.zwenkai:basedialog:1.1.0'
 }
 repositories {
     mavenCentral()

@@ -8,7 +8,7 @@ DialogFragment的封装
 ## 引入
 
 ```
-implementation 'com.kevin:basedialog:1.1.0'
+implementation 'com.zwenkai:basedialog:1.1.0'
 ```
 
 ## 说明
