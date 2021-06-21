@@ -1,5 +1,17 @@
 /*
- * Copyright (C) 2021 Baidu, Inc. All Rights Reserved.
+ * Copyright 2021 Kevin zhou
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 apply plugin: 'maven'
 apply plugin: 'signing'
@@ -7,7 +19,7 @@ apply plugin: 'signing'
 // load properties
 Properties properties = new Properties()
 File localPropertiesFile = rootProject.file("local.properties");
-if(localPropertiesFile.exists()){
+if (localPropertiesFile.exists()) {
     properties.load(localPropertiesFile.newDataInputStream())
 }
 
@@ -17,41 +29,6 @@ def developerEmail = properties.getProperty("POM_DEVELOPER_EMAIL")
 
 def ossrhUser = properties.getProperty("OSSRH_USER")
 def ossrhPswd = properties.getProperty("OSSRH_PSWD")
-
-if (project.hasProperty("android")) {
-    task sourcesJar(type: Jar) {
-        classifier = 'sources'
-        from android.sourceSets.main.java.srcDirs
-    }
-
-    task javadoc(type: Javadoc) {
-        // https://github.com/novoda/bintray-release/issues/71
-        excludes = ['**/*.kt']
-        source = android.sourceSets.main.java.srcDirs
-        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-        options.encoding = "utf-8"
-        options.charSet = "utf-8"
-    }
-} else { // Java libraries
-    task sourcesJar(type: Jar, dependsOn: classes) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
-    }
-}
-
-// 强制 Java/JavaDoc 等的编码为 UTF-8
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
-}
-
-tasks.withType(Javadoc) {
-    options.encoding = "UTF-8"
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
 
 // 签名
 signing {
@@ -65,7 +42,7 @@ uploadArchives {
             beforeDeployment { deployment -> signing.signPom(deployment) }
 
             repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
-//            repository(url: "file://${rootProject.projectDir}/../android-repo/m2repository") {
+//            repository(url: "file://${rootProject.projectDir}/android-repo/m2repository") {
                 authentication(userName: ossrhUser, password: ossrhPswd)
             }
 
@@ -106,10 +83,110 @@ uploadArchives {
             }
         }
     }
+
+    // add javadoc/source jar tasks as artifacts
+    if (project.plugins.hasPlugin("com.android.library")) {
+        setupConfigureForAndroid(project)
+    } else {
+        setupConfigureForJava(project)
+    }
+
+    java8Javadoc(project)
 }
 
-// add javadoc/source jar tasks as artifacts
-artifacts {
-    archives javadocJar
-    archives sourcesJar
+def setupConfigureForAndroid(Project project) {
+    project.tasks.create("androidJavadocs", Javadoc.class) {
+        if (plugins.hasPlugin("kotlin-android")) {
+            source = project.android.sourceSets.main.java.srcDirs
+        }
+        failOnError true
+        classpath += project.files(project.android.getBootClasspath().join(File.pathSeparator))
+
+        exclude '**/internal/*'
+    }
+
+    def androidJavadocsJar = project.tasks.create("androidJavadocsJar", Jar.class) {
+        group = 'jar'
+        classifier = 'javadoc'
+    }
+
+    if (plugins.hasPlugin('kotlin-android')) {
+        def dokkaOutput = "${project.docsDir}/dokka"
+        project.plugins.apply('org.jetbrains.dokka')
+        project.dokka {
+            outputFormat = "javadoc"
+            outputDirectory dokkaOutput
+
+        }
+        androidJavadocsJar.configure {
+            dependsOn "dokka"
+            from dokkaOutput
+        }
+    } else {
+        androidJavadocsJar.configure {
+            dependsOn "androidJavadocs"
+            from project.androidJavadocs.destinationDir
+        }
+    }
+
+    project.tasks.create("androidSourcesJar", Jar.class) {
+        classifier = 'sources'
+        from project.android.sourceSets.main.java.srcDirs
+    }
+
+    project.artifacts.add("archives", project.androidSourcesJar)
+    project.artifacts.add("archives", project.androidJavadocsJar)
+}
+
+def setupConfigureForJava(Project project) {
+    if (plugins.hasPlugin('groovy')) {
+        project.tasks.create("groovydocJar", Jar.class) {
+            classifier = 'groovydoc'
+            from project.groovydoc.destinationDir
+        }.dependsOn("groovydoc")
+    }
+
+    project.tasks.create("sourcesJar", Jar.class) {
+        classifier = 'sources'
+        from project.sourceSets.main.allSource
+    }.dependsOn("classes")
+
+    def javadocsJar = project.tasks.create("javadocsJar", Jar.class) {
+        group = 'jar'
+        classifier = 'javadoc'
+    }
+
+    if (project.plugins.hasPlugin("kotlin")) {
+        def dokkaOutput = "${project.docsDir}/dokka"
+        project.plugins.apply('org.jetbrains.dokka')
+        project.dokka {
+            outputFormat 'html'
+            outputDirectory dokkaOutput
+        }
+        javadocsJar.configure {
+            dependsOn "dokka"
+            from dokkaOutput
+        }
+    } else {
+        javadocsJar.configure {
+            dependsOn "javadoc"
+            from project.javadoc.destinationDir
+        }
+    }
+
+    project.artifacts.add("archives", project.javadocsJar)
+    if (plugins.hasPlugin('groovy')) {
+        project.artifacts.add("archives", project.groovydocJar)
+    }
+    project.artifacts.add("archives", project.sourcesJar)
+}
+
+def java8Javadoc(Project project) {
+    if (JavaVersion.current().isJava8Compatible()) {
+        project.allprojects {
+            tasks.withType(Javadoc) {
+                options.addStringOption('Xdoclint:none', '-quiet')
+            }
+        }
+    }
 }
