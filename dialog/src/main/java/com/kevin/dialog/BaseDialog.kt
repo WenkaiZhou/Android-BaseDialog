@@ -210,7 +210,7 @@ abstract class BaseDialog : DialogFragment() {
             val transaction = manager.beginTransaction()
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             transaction.add(this, tag)
-            transaction.commitAllowingStateLoss()
+            transaction.commitNowAllowingStateLoss()
         }
     }
 
