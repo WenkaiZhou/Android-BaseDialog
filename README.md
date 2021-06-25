@@ -2,7 +2,7 @@
 DialogFragment的封装
 
 [![License](https://img.shields.io/badge/License%20-Apache%202-337ab7.svg?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0)
-[![JCenter](https://img.shields.io/badge/%20JCenter%20-1.1.1-5bc0de.svg?style=flat-square)](https://bintray.com/xuehuayous/maven/Android-BaseDialog/_latestVersion)
+[![mavenCentral](https://img.shields.io/badge/%20mavenCentral%20-1.1.1-5bc0de.svg?style=flat-square)](https://repo1.maven.org/maven2/com/zwenkai/basedialog)
 [![MinSdk](https://img.shields.io/badge/%20MinSdk%20-%2014%2B%20-f0ad4e.svg?style=flat-square)](https://android-arsenal.com/api?level=14)
 
 ## 引入
@@ -201,7 +201,7 @@ setY(y: Int) | 设置对话框在Y方向偏移量 | 0
 ## License
 
 ```text
-Copyright 2019 Kevin zhou
+Copyright 2021 Kevin zhou
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
