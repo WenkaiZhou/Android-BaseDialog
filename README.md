@@ -28,6 +28,7 @@ setOffsetY(offsetY: Float) | 设置Y方向偏移百分比 | 0
 setPadding(left: Int, top: Int, right: Int, bottom: Int) | 设置边距 | 0, 0, 0, 0
 setAnimations(animStyle: Int) | 设置动画 | 0 (无动画)
 setDimEnabled(dimEnabled: Boolean) | 设置背景是否阴影 | true
+setDimAmount(dimAmount: Float) | 设置背景阴影度 | 1.0f
 setBackgroundColor(@ColorInt color: Int) | 设置对话框背景颜色 | Color.TRANSPARENT
 setRadius(radius: Int) | 设置四周圆角弧度 | 0
 setLeftTopRadius(radius: Int) | 设置左上圆角弧度 | 0
@@ -75,7 +76,7 @@ setY(y: Int) | 设置对话框在Y方向偏移量 | 0
                     .setCanceledOnTouchOutside(false) // 设置屏蔽对话框点击外部关闭
                     .setGravity(Gravity.BOTTOM) // 设置对话框在底部
                     .setWidthRatio(1f) // 设置宽度为屏幕宽度
-                    .setDimEnabled(false) // 设置无黑色透明背景
+                    .setDimEnabled(false) // 设置无背景阴影
                     .setAnimations(android.R.style.Animation_InputMethod) // 设置动画
                 dialog.builder = this
                 return dialog
