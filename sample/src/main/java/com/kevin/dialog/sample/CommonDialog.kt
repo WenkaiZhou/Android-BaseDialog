@@ -19,17 +19,17 @@ import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
-import android.support.annotation.ColorInt
-import android.support.annotation.FloatRange
-import android.support.annotation.IntRange
-import android.support.annotation.LayoutRes
-import android.support.v4.app.FragmentActivity
 import android.text.Html
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.ColorInt
+import androidx.annotation.FloatRange
+import androidx.annotation.IntRange
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.FragmentActivity
 import com.kevin.dialog.BaseDialog
 
 /**
