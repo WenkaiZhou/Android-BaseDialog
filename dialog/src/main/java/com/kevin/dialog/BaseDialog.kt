@@ -57,6 +57,7 @@ abstract class BaseDialog : DialogFragment() {
     private var padding: IntArray? = null // 对话框与屏幕边缘距离
     private var animStyle: Int = 0 // 显示动画
     private var dimEnabled = true // 背景阴影
+    private var dimAmount = 1.0f // 背景阴影比例，范围：0-1：1最暗
     private var backgroundColor = Color.TRANSPARENT // 对话框的背景色
     private var leftTopRadius = 0 // 左上角圆角半径
     private var rightTopRadius = 0 // 右上角圆角半径
@@ -85,6 +86,7 @@ abstract class BaseDialog : DialogFragment() {
             padding = savedInstanceState.getIntArray(SAVED_PADDING)
             animStyle = savedInstanceState.getInt(SAVED_ANIM_STYLE)
             dimEnabled = savedInstanceState.getBoolean(SAVED_DIM_ENABLED)
+            dimAmount = savedInstanceState.getFloat(SAVED_DIM_AMOUNT)
             backgroundColor = savedInstanceState.getInt(SAVED_BACKGROUND_COLOR)
             leftTopRadius = savedInstanceState.getInt(SAVED_LEFT_TOP_RADIUS)
             rightTopRadius = savedInstanceState.getInt(SAVED_RIGHT_TOP_RADIUS)
@@ -111,6 +113,7 @@ abstract class BaseDialog : DialogFragment() {
         }
         outState.putInt(SAVED_ANIM_STYLE, animStyle)
         outState.putBoolean(SAVED_DIM_ENABLED, dimEnabled)
+        outState.putFloat(SAVED_DIM_AMOUNT, dimAmount)
         outState.putInt(SAVED_BACKGROUND_COLOR, backgroundColor)
         outState.putInt(SAVED_LEFT_TOP_RADIUS, leftTopRadius)
         outState.putInt(SAVED_RIGHT_TOP_RADIUS, rightTopRadius)
@@ -198,6 +201,7 @@ abstract class BaseDialog : DialogFragment() {
         }
 
         if (dimEnabled) {
+            wlp.dimAmount = dimAmount
             window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         } else {
             window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
@@ -332,6 +336,16 @@ abstract class BaseDialog : DialogFragment() {
     }
 
     /**
+     * 设置背景阴影度，默认1.0f
+     *
+     * @param dimAmount 阴影度
+     */
+    fun setDimAmount(@FloatRange(from = 0.0, to = 1.0) dimAmount: Float): BaseDialog {
+        this.dimAmount = dimAmount
+        return this
+    }
+
+    /**
      * 设置背景颜色
      *
      * @param color 背景颜色
@@ -442,6 +456,7 @@ abstract class BaseDialog : DialogFragment() {
         private const val SAVED_PADDING = "SAVED_PADDING"
         private const val SAVED_ANIM_STYLE = "SAVED_ANIM_STYLE"
         private const val SAVED_DIM_ENABLED = "SAVED_DIM_ENABLED"
+        private const val SAVED_DIM_AMOUNT = "SAVED_DIM_AMOUNT"
         private const val SAVED_BACKGROUND_COLOR = "SAVED_BACKGROUND_COLOR"
         private const val SAVED_LEFT_TOP_RADIUS = "SAVED_LEFT_TOP_RADIUS"
         private const val SAVED_RIGHT_TOP_RADIUS = "SAVED_RIGHT_TOP_RADIUS"

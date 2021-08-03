@@ -152,6 +152,7 @@ class CommonDialog : BaseDialog() {
         private var padding: IntArray? = null // 对话框与屏幕边缘距离
         private var animStyle: Int = 0 // 显示动画
         private var dimEnabled = true // 边缘阴影
+        private var dimAmount = 1.0f // 边缘阴影比重
         private var backgroundColor = Color.WHITE // 对话框的背景色
         private var leftTopRadius = 0 // 左上角圆角半径
         private var rightTopRadius = 0 // 右上角圆角半径
@@ -378,6 +379,16 @@ class CommonDialog : BaseDialog() {
         }
 
         /**
+         * 设置背景阴影度，默认1.0f
+         *
+         * @param dimAmount 阴影度
+         */
+        fun setDimAmount(@FloatRange(from = 0.0, to = 1.0) dimAmount: Float): Builder {
+            this.dimAmount = dimAmount
+            return this
+        }
+
+        /**
          * 设置背景颜色
          *
          * @color 背景颜色
@@ -492,6 +503,7 @@ class CommonDialog : BaseDialog() {
                 .setOffsetY(offsetY)
                 .setAnimations(animStyle)
                 .setDimEnabled(dimEnabled)
+                .setDimAmount(dimAmount)
                 .setBackgroundColor(backgroundColor)
                 .setLeftTopRadius(leftTopRadius)
                 .setRightTopRadius(rightTopRadius)

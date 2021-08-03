@@ -52,6 +52,8 @@ class MainActivity : AppCompatActivity() {
                     .setTitle("您确定不去⛷吗？")
                     .setContent("其实🏂真的非常好玩，你不去吗？")
                     .setCanceledOnTouchOutside(false)
+                    .setDimEnabled(false)
+                    .setDimAmount(0.5f)
                     .setPositiveButton("确定") {
                         it.dismiss()
                     }
