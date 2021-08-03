@@ -22,6 +22,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -57,7 +58,7 @@ abstract class BaseDialog : DialogFragment() {
     private var padding: IntArray? = null // 对话框与屏幕边缘距离
     private var animStyle: Int = 0 // 显示动画
     private var dimEnabled = true // 背景阴影
-    private var dimAmount = 1.0f // 背景阴影比例，范围：0-1：1最暗
+    private var dimAmount = 0.5f // 背景阴影比例，范围：0-1：1最暗
     private var backgroundColor = Color.TRANSPARENT // 对话框的背景色
     private var leftTopRadius = 0 // 左上角圆角半径
     private var rightTopRadius = 0 // 右上角圆角半径
