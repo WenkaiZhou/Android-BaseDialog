@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
 
     defaultConfig {
         applicationId "com.kevin.dialog.sample"
         minSdkVersion 14
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
@@ -30,17 +30,17 @@ android {
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.annotation:annotation:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'com.kevin:delegationadapter:2.0.4'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0'
+    implementation 'com.zwenkai:delegationadapter:2.0.4'
     // 扩展库，扩展支持了item click、item long click、dataBinding
-    implementation 'com.kevin:delegationadapter-extras:2.0.4'
+    implementation 'com.zwenkai:delegationadapter-extras:2.0.4'
 
     implementation project(':dialog')
 //    implementation 'com.zwenkai:basedialog:1.1.3'
