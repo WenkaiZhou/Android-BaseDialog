@@ -210,11 +210,12 @@ abstract class BaseDialog : DialogFragment() {
     }
 
     override fun show(manager: FragmentManager, tag: String?) {
+        manager.executePendingTransactions()
         if (!isAdded) {
             val transaction = manager.beginTransaction()
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             transaction.add(this, tag)
-            transaction.commitNowAllowingStateLoss()
+            transaction.commitAllowingStateLoss()
         }
     }
 
