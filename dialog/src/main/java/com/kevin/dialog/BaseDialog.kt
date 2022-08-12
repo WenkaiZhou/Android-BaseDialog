@@ -170,7 +170,7 @@ abstract class BaseDialog : DialogFragment() {
         window!!.setBackgroundDrawableResource(android.R.color.transparent)
         val wlp = window.attributes
         val dm = DisplayMetrics()
-        activity!!.windowManager.defaultDisplay.getMetrics(dm) // 获取屏幕宽
+        requireActivity().windowManager.defaultDisplay.getMetrics(dm) // 获取屏幕宽
         if (width == -1) {
             wlp.width = (dm.widthPixels * widthRatio).toInt() // 宽度按屏幕宽度的百分比设置
         } else {
@@ -210,6 +210,10 @@ abstract class BaseDialog : DialogFragment() {
     }
 
     override fun show(manager: FragmentManager, tag: String?) {
+        if (manager.isDestroyed) {
+            return
+        }
+
         manager.executePendingTransactions()
         if (!isAdded) {
             val transaction = manager.beginTransaction()
