@@ -31,5 +31,5 @@ repositories {
     mavenCentral()
 }
 
-//------
-//apply from: rootProject.file('gradle/maven_publish.gradle')
+// -------
+apply plugin: "com.vanniktech.maven.publish"
